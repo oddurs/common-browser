@@ -85,6 +85,21 @@ expect_refusal "agent pr refuses to push with the hooks off" "hooks are off" \
 	agent pr --body-file "$tmp/body.md"
 git -C "$repo" config core.hooksPath .githooks
 
+# pre-push: never to the default branch; skip the check only for content that already passed.
+zero=0000000000000000000000000000000000000000
+prepush() { printf '%s\n' "$1" | (cd "$repo" && .githooks/pre-push origin example); }
+head=$(git -C "$repo" rev-parse HEAD)
+expect_refusal "pre-push refuses a push to the default branch" "not allowed" \
+	prepush "refs/heads/main $head refs/heads/main $head"
+git -C "$repo" rev-parse 'HEAD^{tree}' >"$(git -C "$repo" rev-parse --absolute-git-dir)/task-check-passed"
+expect_ok "pre-push skips the check for content that already passed" \
+	prepush "refs/heads/fix/example $head refs/heads/fix/example $zero"
+echo change >"$repo/change"
+git -C "$repo" add change
+git -C "$repo" commit --quiet --no-verify -m "chore: change"
+expect_refusal "pre-push runs the check for content that has not passed" "Cargo.toml" \
+	prepush "refs/heads/fix/example $(git -C "$repo" rev-parse HEAD) refs/heads/fix/example $zero"
+
 # From a linked worktree, the branch's own scripts apply, even where the primary checkout lacks them.
 git -C "$repo" worktree add --quiet -b fix/in-worktree "$tmp/linked"
 rm "$repo/scripts/no-attribution"

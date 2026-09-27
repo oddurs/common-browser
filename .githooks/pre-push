@@ -9,13 +9,23 @@ base=${ref#origin/}
 [ -n "$base" ] || base=main
 
 zero=0000000000000000000000000000000000000000
-while read -r _local_ref _local_sha remote_ref remote_sha; do
+passed=$(cat "$(git rev-parse --git-path task-check-passed)" 2>/dev/null || true)
+unchecked=''
+while read -r _local_ref local_sha remote_ref remote_sha; do
 	# Creating the branch on an empty remote is the one push that cannot come from a pull
 	# request; branch protection takes over from there.
 	if [ "$remote_ref" = "refs/heads/$base" ] && [ "$remote_sha" != "$zero" ]; then
 		echo "pre-push: pushing to $base is not allowed; open a pull request (scripts/agent pr)" >&2
 		exit 1
 	fi
+	[ "$local_sha" = "$zero" ] && continue
+	[ "$(git rev-parse "$local_sha^{tree}")" = "$passed" ] || unchecked=yes
 done
 
-"$root/scripts/task" check
+# Git connects before running this hook, and a remote drops a connection left idle through a long
+# check. `scripts/agent pr` therefore checks before pushing; the same content need not run again.
+if [ -n "$unchecked" ]; then
+	"$root/scripts/task" check
+else
+	echo "pre-push: this content already passed scripts/task check"
+fi

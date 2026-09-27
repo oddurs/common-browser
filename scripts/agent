@@ -6,7 +6,7 @@
 #   scripts/agent check                  scripts/task check
 #   scripts/agent commit "<message>"     Conventional Commit, validated before committing
 #   scripts/agent pr --body-file FILE [--draft]
-#                                        push (the pre-push hook checks), open the pull request
+#                                        check, push, open the pull request
 #   scripts/agent sync                   rebase onto the default branch
 #   scripts/agent done                   after merge: remove the worktree and the branch
 #   scripts/agent list                   worktrees, their branches and pull request state
@@ -128,11 +128,13 @@ pr() {
 	[ -s "$body" ] || fail "$body is missing or empty"
 	! cmp -s "$body" "$template" || fail "$body is the unfilled template; fill in each section"
 	"$(here)/scripts/no-attribution" "$body"
-	# The pre-push hook runs scripts/task check, so running it here as well would double the wait.
-	[ "$(git config core.hooksPath || true)" = ".githooks" ] || fail "git hooks are off, so nothing would check this push; run scripts/setup"
+	[ "$(git config core.hooksPath || true)" = ".githooks" ] || fail "git hooks are off; run scripts/setup"
 	title=$(git log --reverse --format=%s "origin/$base..HEAD" | head -n 1)
 	[ -n "$title" ] || fail "no commits on $branch beyond origin/$base"
-	say "Pushing $branch; the pre-push hook runs scripts/task check…"
+	# Check before connecting: the pre-push hook sees this content passed and does not repeat it.
+	[ -z "$(git status --porcelain)" ] || fail "commit or stash your changes first; the check must see what is pushed"
+	check
+	say "Pushing $branch…"
 	git push --quiet -u origin "$branch"
 	# shellcheck disable=SC2086 # $draft is empty or one flag
 	gh pr create --base "$base" --title "$title" --body-file "$body" $draft

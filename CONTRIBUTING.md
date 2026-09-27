@@ -18,7 +18,7 @@ scripts/agent doctor   # confirms tools, GitHub login and hooks
 3. Commit with `scripts/agent commit "<type>(scope): subject"`.
 4. Write the description in `pr.md` (git ignores it), starting from
    `.github/PULL_REQUEST_TEMPLATE.md`, then open the pull request with
-   `scripts/agent pr --body-file pr.md`. The push runs every check first.
+   `scripts/agent pr --body-file pr.md`. It runs every check before pushing.
 5. Keep up with `main` using `scripts/agent sync`.
 6. After the merge, run `scripts/agent done` to remove the worktree and branch.
 
