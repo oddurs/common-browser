@@ -2,6 +2,7 @@
 //! this crate, so nothing in it may depend on a UI toolkit or a web engine.
 
 pub mod config;
+pub mod pages;
 
 /// The version reported by every shell and by the CLI.
 pub const VERSION: &str = env!("CARGO_PKG_VERSION");

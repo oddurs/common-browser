@@ -12,3 +12,5 @@ All notable changes to this project are documented here. The format follows
   undo) inside pages.
 - `common config check [--path FILE]` reports each error in `common.toml` as
   `FILE:LINE:COL: MESSAGE` and exits 1 if there are any.
+- Pages: ⌘T opens one, ⌘W closes the one on screen, ⌥⌘← and ⌥⌘→ move between them. One page fills
+  the window at a time, and hidden pages keep their state.
