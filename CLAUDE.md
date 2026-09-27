@@ -22,8 +22,9 @@ Rust core that Linux and Windows shells will share.
    another agent.
 3. Commit with `scripts/agent commit "<type>(scope): subject"`: Conventional Commits,
    imperative, ≤ 72 characters, no trailing period; the body says why.
-4. `scripts/agent pr` runs `scripts/task check`, pushes and opens the pull request. The
-   description states the problem, the approach, and what to look at sceptically.
+4. Write `pr.md` from `.github/PULL_REQUEST_TEMPLATE.md`: the problem, the approach, and what to
+   look at sceptically. `scripts/agent pr --body-file pr.md` runs `scripts/task check`, pushes
+   and opens the pull request. It refuses an empty or unfilled description.
 5. After merge: `scripts/agent done`.
 
 Never use `--no-verify`, never add `|| true` or `continue-on-error` to get green.

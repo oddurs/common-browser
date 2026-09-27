@@ -40,11 +40,11 @@ cargo run -p common-cli -- --version
 All work happens on a branch in its own worktree and lands through a pull request:
 
 ```sh
-scripts/agent doctor              # check your setup
-scripts/agent start feat/my-idea  # new branch and worktree; cd into the printed path
+scripts/agent doctor                  # check your setup
+scripts/agent start feat/my-idea      # new branch and worktree; cd into the printed path
 scripts/agent commit "feat(core): parse common.toml"
-scripts/agent pr                  # runs every check, pushes, opens the pull request
-scripts/agent done                # after merge: removes the worktree and branch
+scripts/agent pr --body-file pr.md    # runs every check, pushes, opens the pull request
+scripts/agent done                    # after merge: removes the worktree and branch
 ```
 
 `scripts/task check` runs formatting, lint (warnings are errors), tests and the build for both

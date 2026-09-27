@@ -27,6 +27,7 @@ lint() {
 }
 
 test_all() {
+	scripts/test-workflow
 	cargo test --workspace --locked
 	# Without Xcode, SwiftPM neither finds the Testing framework nor its interop library, so
 	# point the compiler and the test runner at the copies Command Line Tools ships.
@@ -48,6 +49,13 @@ build() {
 	swift build --package-path "$SWIFT_PACKAGE" -Xswiftc -warnings-as-errors
 }
 
+# Remember the tree that just passed, so the pre-push hook can skip checking the same content
+# twice. Only a clean checkout counts: otherwise the tree is not what was checked.
+record_pass() {
+	[ -z "$(git status --porcelain 2>/dev/null || echo dirty)" ] || return 0
+	git rev-parse 'HEAD^{tree}' >"$(git rev-parse --git-path task-check-passed)"
+}
+
 usage() {
 	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check>" >&2
 	exit 2
@@ -66,6 +74,7 @@ check)
 	lint
 	test_all
 	build
+	record_pass
 	;;
 *) usage ;;
 esac

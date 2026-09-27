@@ -16,7 +16,9 @@ scripts/agent doctor   # confirms tools, GitHub login and hooks
    path it prints. Types: `feat`, `fix`, `chore`, `docs`, `perf`, `refactor`, `test`.
 2. Work there. Never commit in the primary checkout; it stays on `main`.
 3. Commit with `scripts/agent commit "<type>(scope): subject"`.
-4. Open the pull request with `scripts/agent pr`. It runs every check first.
+4. Write the description in `pr.md` (git ignores it), starting from
+   `.github/PULL_REQUEST_TEMPLATE.md`, then open the pull request with
+   `scripts/agent pr --body-file pr.md`. It runs every check before pushing.
 5. Keep up with `main` using `scripts/agent sync`.
 6. After the merge, run `scripts/agent done` to remove the worktree and branch.
 
@@ -39,6 +41,8 @@ share a checkout.
 | `lint` | `cargo clippy -- -D warnings` | covered by the build |
 | `test` | `cargo test` | `swift test` |
 | `build` | `cargo build` | `swift build`, warnings as errors |
+
+`test` also runs `scripts/test-workflow`, which tests these hooks and `scripts/agent` itself.
 
 The pre-commit hook runs format and lint; the pre-push hook runs everything and refuses pushes
 to `main`. CI runs the same `scripts/task check`.

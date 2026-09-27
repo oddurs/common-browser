@@ -19,3 +19,6 @@
 .idea/
 .vscode/
 *.swp
+
+# Pull request descriptions for scripts/agent pr
+/pr.md

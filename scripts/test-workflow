@@ -1,0 +1,114 @@
+#!/bin/sh
+# Tests for the workflow scripts: the commit-msg rules, and the checks `scripts/agent pr` makes
+# before it touches the network.
+set -eu
+
+# Git exports GIT_DIR and friends to hooks, and this runs from the pre-push hook. Left set, they
+# point every git command below at the real repository instead of the throwaway one.
+# shellcheck disable=SC2046 # one variable name per word
+unset $(git rev-parse --local-env-vars)
+
+here=$(cd "$(dirname "$0")/.." && pwd)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+failures=0
+
+pass() { printf 'ok    %s\n' "$1"; }
+fail_test() {
+	printf 'FAIL  %s\n' "$1"
+	sed 's/^/      /' "$tmp/out"
+	failures=$((failures + 1))
+}
+
+# expect_ok DESCRIPTION COMMAND...
+expect_ok() {
+	desc=$1
+	shift
+	if "$@" >"$tmp/out" 2>&1; then pass "$desc"; else fail_test "$desc"; fi
+}
+
+# expect_refusal DESCRIPTION PATTERN COMMAND...: fails, and says why.
+expect_refusal() {
+	desc=$1 pattern=$2
+	shift 2
+	if "$@" >"$tmp/out" 2>&1; then
+		fail_test "$desc (exited 0)"
+	elif grep -q -- "$pattern" "$tmp/out"; then
+		pass "$desc"
+	else
+		fail_test "$desc (no \"$pattern\" in the output)"
+	fi
+}
+
+# A throwaway repository with this checkout's scripts, hooks and templates, on a work branch.
+repo=$tmp/repo
+mkdir "$repo"
+cp -R "$here/scripts" "$here/.githooks" "$here/.github" "$repo/"
+git -C "$repo" init --quiet -b main
+[ "$(git -C "$repo" rev-parse --absolute-git-dir)" = "$(cd "$repo" && pwd -P)/.git" ] || {
+	echo "test-workflow: git is not using the throwaway repository; refusing to continue" >&2
+	exit 1
+}
+git -C "$repo" config user.name Test
+git -C "$repo" config user.email test@example.com
+git -C "$repo" config core.hooksPath .githooks
+git -C "$repo" add -A
+git -C "$repo" commit --quiet --no-verify -m "chore: start"
+git -C "$repo" checkout --quiet -b fix/example
+
+message() {
+	printf '%s\n' "$@" >"$tmp/msg"
+	(cd "$repo" && .githooks/commit-msg "$tmp/msg")
+}
+agent() { (cd "$repo" && scripts/agent "$@"); }
+
+expect_ok "commit-msg accepts a Conventional Commit" message "feat(core): parse common.toml"
+expect_refusal "commit-msg refuses a subject without a type" "Conventional Commit" message "parse common.toml"
+expect_refusal "commit-msg refuses a trailing period" "Conventional Commit" message "fix: stop the crash."
+expect_refusal "commit-msg refuses a subject over 72 characters" "keep it to 72" \
+	message "docs: $(printf '%070d' 0)"
+expect_refusal "commit-msg refuses attribution in the body" "remove the AI or assistant attribution" \
+	message "fix: stop the crash" "" "Generated with an AI tool"
+
+expect_refusal "agent pr refuses to open without a description" "--body-file" agent pr
+expect_refusal "agent pr refuses a missing description file" "missing or empty" \
+	agent pr --body-file "$tmp/nothing.md"
+cp "$repo/.github/PULL_REQUEST_TEMPLATE.md" "$tmp/body.md"
+expect_refusal "agent pr refuses the unfilled template" "unfilled template" \
+	agent pr --body-file "$tmp/body.md"
+printf '## Problem\n\nIt crashed.\n\nGenerated with an AI tool\n' >"$tmp/body.md"
+expect_refusal "agent pr refuses attribution in the description" "remove the AI or assistant attribution" \
+	agent pr --body-file "$tmp/body.md"
+printf '## Problem\n\nIt crashed.\n' >"$tmp/body.md"
+git -C "$repo" config --unset core.hooksPath
+expect_refusal "agent pr refuses to push with the hooks off" "hooks are off" \
+	agent pr --body-file "$tmp/body.md"
+git -C "$repo" config core.hooksPath .githooks
+
+# pre-push: never to the default branch; skip the check only for content that already passed.
+zero=0000000000000000000000000000000000000000
+prepush() { printf '%s\n' "$1" | (cd "$repo" && .githooks/pre-push origin example); }
+head=$(git -C "$repo" rev-parse HEAD)
+expect_refusal "pre-push refuses a push to the default branch" "not allowed" \
+	prepush "refs/heads/main $head refs/heads/main $head"
+git -C "$repo" rev-parse 'HEAD^{tree}' >"$(git -C "$repo" rev-parse --absolute-git-dir)/task-check-passed"
+expect_ok "pre-push skips the check for content that already passed" \
+	prepush "refs/heads/fix/example $head refs/heads/fix/example $zero"
+echo change >"$repo/change"
+git -C "$repo" add change
+git -C "$repo" commit --quiet --no-verify -m "chore: change"
+expect_refusal "pre-push runs the check for content that has not passed" "Cargo.toml" \
+	prepush "refs/heads/fix/example $(git -C "$repo" rev-parse HEAD) refs/heads/fix/example $zero"
+
+# From a linked worktree, the branch's own scripts apply, even where the primary checkout lacks them.
+git -C "$repo" worktree add --quiet -b fix/in-worktree "$tmp/linked"
+rm "$repo/scripts/no-attribution"
+printf '## Problem\n\nIt crashed.\n\nGenerated with an AI tool\n' >"$tmp/body.md"
+# shellcheck disable=SC2016 # expanded by the inner shell, from its arguments
+expect_refusal "agent pr in a worktree uses that worktree's scripts" "remove the AI or assistant attribution" \
+	sh -c 'cd "$1" && scripts/agent pr --body-file "$2"' sh "$tmp/linked" "$tmp/body.md"
+
+[ "$failures" -eq 0 ] || {
+	echo "$failures workflow test(s) failed" >&2
+	exit 1
+}

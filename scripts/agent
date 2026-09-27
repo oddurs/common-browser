@@ -5,7 +5,8 @@
 #   scripts/agent start <type>/<slug>    branch from the default branch into its own worktree
 #   scripts/agent check                  scripts/task check
 #   scripts/agent commit "<message>"     Conventional Commit, validated before committing
-#   scripts/agent pr [--draft]           check, push, open the pull request
+#   scripts/agent pr --body-file FILE [--draft]
+#                                        check, push, open the pull request
 #   scripts/agent sync                   rebase onto the default branch
 #   scripts/agent done                   after merge: remove the worktree and the branch
 #   scripts/agent list                   worktrees, their branches and pull request state
@@ -31,6 +32,10 @@ default_branch() {
 		printf 'main\n'
 	fi
 }
+
+# The checkout this command runs in. Its scripts, hooks and templates are the ones the branch
+# will ship, which the primary checkout on the default branch may not have yet.
+here() { git rev-parse --show-toplevel; }
 
 repo_name() { basename "$(root)"; }
 
@@ -85,14 +90,14 @@ start() {
 	say "  cd $path"
 }
 
-check() { "$(root)/scripts/task" check; }
+check() { "$(here)/scripts/task" check; }
 
 commit() {
 	[ $# -eq 1 ] || fail 'usage: scripts/agent commit "<type>(scope): subject"'
 	[ "$(current_branch)" != "$(default_branch)" ] || fail "never commit to $(default_branch); run scripts/agent start first"
 	tmp=$(mktemp)
 	printf '%s\n' "$1" >"$tmp"
-	if ! "$(root)/.githooks/commit-msg" "$tmp"; then
+	if ! "$(here)/.githooks/commit-msg" "$tmp"; then
 		rm -f "$tmp"
 		exit 1
 	fi
@@ -102,15 +107,37 @@ commit() {
 
 pr() {
 	branch=$(current_branch)
-	[ "$branch" != "$(default_branch)" ] || fail "open pull requests from a work branch, not $(default_branch)"
+	base=$(default_branch)
+	[ "$branch" != "$base" ] || fail "open pull requests from a work branch, not $base"
+	body='' draft=''
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		--body-file)
+			[ $# -ge 2 ] || fail "--body-file needs a file"
+			body=$2
+			shift
+			;;
+		--draft) draft=--draft ;;
+		*) fail "usage: scripts/agent pr --body-file FILE [--draft]" ;;
+		esac
+		shift
+	done
+	# A reviewer needs the problem, the approach and the weak spots; a commit subject is not that.
+	template="$(here)/.github/PULL_REQUEST_TEMPLATE.md"
+	[ -n "$body" ] || fail "describe the change: scripts/agent pr --body-file FILE, starting from .github/PULL_REQUEST_TEMPLATE.md"
+	[ -s "$body" ] || fail "$body is missing or empty"
+	! cmp -s "$body" "$template" || fail "$body is the unfilled template; fill in each section"
+	"$(here)/scripts/no-attribution" "$body"
+	[ "$(git config core.hooksPath || true)" = ".githooks" ] || fail "git hooks are off; run scripts/setup"
+	title=$(git log --reverse --format=%s "origin/$base..HEAD" | head -n 1)
+	[ -n "$title" ] || fail "no commits on $branch beyond origin/$base"
+	# Check before connecting: the pre-push hook sees this content passed and does not repeat it.
+	[ -z "$(git status --porcelain)" ] || fail "commit or stash your changes first; the check must see what is pushed"
 	check
 	say "Pushing $branch…"
 	git push --quiet -u origin "$branch"
-	if [ "${1:-}" = "--draft" ]; then
-		gh pr create --fill --base "$(default_branch)" --draft
-	else
-		gh pr create --fill --base "$(default_branch)"
-	fi
+	# shellcheck disable=SC2086 # $draft is empty or one flag
+	gh pr create --base "$base" --title "$title" --body-file "$body" $draft
 }
 
 sync() {
