@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`··········` 0% · 0 of 23 done · due 2026-11-13
+`#·········` 4% · 1 of 23 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -31,8 +31,11 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
 - [ ] [`d7f265dd`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d7f265dd-9255-49bb-9d6b-1842fd1afaae-back-forward-reload-stop-and-copy-address.md) Back, forward, reload, stop and copy address <sup>feature · p0 · web</sup>
 - [ ] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
-- [ ] [`fcb89b44`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fcb89b44-5b91-4f8e-9c37-d8227399e0c9-parse-common-toml-into-a-typed-config.md) Parse common.toml into a typed config <sup>feature · p0 · config</sup>
 - [ ] [`fd50f7c7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fd50f7c7-52d2-4a0f-a14d-8ea68fa96cc2-install-guide-and-config-reference-for-v0-1.md) Install guide and config reference for v0.1 <sup>docs · p0 · docs</sup>
+
+### done
+
+- [x] [`fcb89b44`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fcb89b44-5b91-4f8e-9c37-d8227399e0c9-parse-common-toml-into-a-typed-config.md) Parse common.toml into a typed config <sup>feature · p0 · config</sup>
 
 ## v0.2 — Spaces
 

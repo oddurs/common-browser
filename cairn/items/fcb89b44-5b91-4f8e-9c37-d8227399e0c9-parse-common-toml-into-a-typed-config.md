@@ -2,10 +2,11 @@
 id: fcb89b44-5b91-4f8e-9c37-d8227399e0c9
 title: Parse common.toml into a typed config
 type: feature
-status: planned
+status: done
 milestone: v0.1
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: config
@@ -30,8 +31,8 @@ new dependencies.
 
 ## Acceptance criteria
 
-- [ ] A missing file gives the defaults, not an error.
-- [ ] An unknown key reports its line and column and suggests the nearest key (`thme` → "did you mean `theme`?"), covered by a test.
-- [ ] A value of the wrong type names the expected type and the line, covered by a test.
-- [ ] Several errors in one file are all reported, not just the first.
-- [ ] An invalid `search.engine` without `%s` is an error that says so.
+- [x] A missing file gives the defaults, not an error.
+- [x] An unknown key reports its line and column and suggests the nearest key (`thme` → "did you mean `theme`?"), covered by a test.
+- [x] A value of the wrong type names the expected type and the line, covered by a test.
+- [x] Several errors in one file are all reported, not just the first.
+- [x] An invalid `search.engine` without `%s` is an error that says so.
