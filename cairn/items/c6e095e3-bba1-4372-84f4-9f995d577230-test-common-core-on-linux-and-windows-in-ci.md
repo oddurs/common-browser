@@ -2,10 +2,10 @@
 id: c6e095e3-bba1-4372-84f4-9f995d577230
 title: Test common-core on Linux and Windows in CI
 type: chore
-status: planned
+status: doing
 milestone: v0.1
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
 priority: p1
 effort: s
 area: release
