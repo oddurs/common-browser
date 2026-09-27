@@ -33,6 +33,10 @@ default_branch() {
 	fi
 }
 
+# The checkout this command runs in. Its scripts, hooks and templates are the ones the branch
+# will ship, which the primary checkout on the default branch may not have yet.
+here() { git rev-parse --show-toplevel; }
+
 repo_name() { basename "$(root)"; }
 
 worktree_path() { printf '%s/../.worktrees/%s/%s\n' "$(root)" "$(repo_name)" "$1"; }
@@ -86,14 +90,14 @@ start() {
 	say "  cd $path"
 }
 
-check() { "$(root)/scripts/task" check; }
+check() { "$(here)/scripts/task" check; }
 
 commit() {
 	[ $# -eq 1 ] || fail 'usage: scripts/agent commit "<type>(scope): subject"'
 	[ "$(current_branch)" != "$(default_branch)" ] || fail "never commit to $(default_branch); run scripts/agent start first"
 	tmp=$(mktemp)
 	printf '%s\n' "$1" >"$tmp"
-	if ! "$(root)/.githooks/commit-msg" "$tmp"; then
+	if ! "$(here)/.githooks/commit-msg" "$tmp"; then
 		rm -f "$tmp"
 		exit 1
 	fi
@@ -119,11 +123,11 @@ pr() {
 		shift
 	done
 	# A reviewer needs the problem, the approach and the weak spots; a commit subject is not that.
-	template="$(root)/.github/PULL_REQUEST_TEMPLATE.md"
+	template="$(here)/.github/PULL_REQUEST_TEMPLATE.md"
 	[ -n "$body" ] || fail "describe the change: scripts/agent pr --body-file FILE, starting from .github/PULL_REQUEST_TEMPLATE.md"
 	[ -s "$body" ] || fail "$body is missing or empty"
 	! cmp -s "$body" "$template" || fail "$body is the unfilled template; fill in each section"
-	"$(root)/scripts/no-attribution" "$body"
+	"$(here)/scripts/no-attribution" "$body"
 	# The pre-push hook runs scripts/task check, so running it here as well would double the wait.
 	[ "$(git config core.hooksPath || true)" = ".githooks" ] || fail "git hooks are off, so nothing would check this push; run scripts/setup"
 	title=$(git log --reverse --format=%s "origin/$base..HEAD" | head -n 1)

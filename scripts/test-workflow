@@ -58,7 +58,7 @@ expect_refusal "commit-msg refuses a subject without a type" "Conventional Commi
 expect_refusal "commit-msg refuses a trailing period" "Conventional Commit" message "fix: stop the crash."
 expect_refusal "commit-msg refuses a subject over 72 characters" "keep it to 72" \
 	message "docs: $(printf '%070d' 0)"
-expect_refusal "commit-msg refuses attribution in the body" "attribution" \
+expect_refusal "commit-msg refuses attribution in the body" "remove the AI or assistant attribution" \
 	message "fix: stop the crash" "" "Generated with an AI tool"
 
 expect_refusal "agent pr refuses to open without a description" "--body-file" agent pr
@@ -68,12 +68,21 @@ cp "$repo/.github/PULL_REQUEST_TEMPLATE.md" "$tmp/body.md"
 expect_refusal "agent pr refuses the unfilled template" "unfilled template" \
 	agent pr --body-file "$tmp/body.md"
 printf '## Problem\n\nIt crashed.\n\nGenerated with an AI tool\n' >"$tmp/body.md"
-expect_refusal "agent pr refuses attribution in the description" "attribution" \
+expect_refusal "agent pr refuses attribution in the description" "remove the AI or assistant attribution" \
 	agent pr --body-file "$tmp/body.md"
 printf '## Problem\n\nIt crashed.\n' >"$tmp/body.md"
 git -C "$repo" config --unset core.hooksPath
 expect_refusal "agent pr refuses to push with the hooks off" "hooks are off" \
 	agent pr --body-file "$tmp/body.md"
+git -C "$repo" config core.hooksPath .githooks
+
+# From a linked worktree, the branch's own scripts apply, even where the primary checkout lacks them.
+git -C "$repo" worktree add --quiet -b fix/in-worktree "$tmp/linked"
+rm "$repo/scripts/no-attribution"
+printf '## Problem\n\nIt crashed.\n\nGenerated with an AI tool\n' >"$tmp/body.md"
+# shellcheck disable=SC2016 # expanded by the inner shell, from its arguments
+expect_refusal "agent pr in a worktree uses that worktree's scripts" "remove the AI or assistant attribution" \
+	sh -c 'cd "$1" && scripts/agent pr --body-file "$2"' sh "$tmp/linked" "$tmp/body.md"
 
 [ "$failures" -eq 0 ] || {
 	echo "$failures workflow test(s) failed" >&2
