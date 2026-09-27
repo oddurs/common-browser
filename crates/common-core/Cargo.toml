@@ -6,3 +6,8 @@ edition.workspace = true
 license.workspace = true
 repository.workspace = true
 rust-version.workspace = true
+
+[dependencies]
+# Only the parser: its spanned document tree gives every config error a line and column, which
+# serde deserialization would reduce to the first error.
+toml = { version = "1.1.6", default-features = false, features = ["std", "parse"] }
