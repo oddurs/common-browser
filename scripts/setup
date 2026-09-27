@@ -1,10 +1,16 @@
 #!/bin/sh
-# One-time setup for a fresh clone: git hooks and the pinned Rust toolchain.
+# One-time setup for a fresh clone: git hooks, the pinned Rust toolchain and the cairn merge driver.
 set -eu
 cd "$(dirname "$0")/.."
 git config core.hooksPath .githooks
 echo "Git hooks enabled (.githooks)."
 rustup show active-toolchain >/dev/null
 echo "Rust toolchain from rust-toolchain.toml is installed."
+# The roadmap lives in cairn/; its merge driver reconciles item files and regenerates ROADMAP.md.
+if command -v cairn >/dev/null; then
+	git config merge.cairn.name "cairn generated files"
+	git config merge.cairn.driver "cairn merge-driver %A %O %B %P"
+	echo "cairn merge driver registered."
+fi
 command -v swift >/dev/null || { echo "Swift is missing: install Xcode or the Command Line Tools (xcode-select --install)." >&2; exit 1; }
 echo "Ready. Run scripts/agent doctor next."

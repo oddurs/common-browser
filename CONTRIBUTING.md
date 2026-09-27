@@ -25,6 +25,9 @@ scripts/agent doctor   # confirms tools, GitHub login and hooks
 One unit of work is one worktree, one branch and one pull request. Two people or agents never
 share a checkout.
 
+To find something to work on, read [ROADMAP.md](ROADMAP.md) or run `cairn next`. Each item's
+file under `cairn/items` has its acceptance criteria; see `CLAUDE.md` for how items move.
+
 ## Commits
 
 [Conventional Commits](https://www.conventionalcommits.org/): `type(scope): subject`, imperative,

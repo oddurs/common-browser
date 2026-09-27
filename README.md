@@ -35,6 +35,12 @@ swift run --package-path apps/macos CommonBrowser https://example.org
 cargo run -p common-cli -- --version
 ```
 
+## Roadmap
+
+[ROADMAP.md](ROADMAP.md) lists every milestone from v0.1 to v1.0 and the work in each. It is
+generated from the items in `cairn/items` by [cairn](https://github.com/oddurs/cairn). macOS comes
+first; the Rust core is tested on Linux and Windows from v0.1, and those shells follow v1.0.
+
 ## Development
 
 All work happens on a branch in its own worktree and lands through a pull request:
