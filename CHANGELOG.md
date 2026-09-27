@@ -23,3 +23,4 @@ All notable changes to this project are documented here. The format follows
 - Downloads: files a page cannot show, attachments and `<a download>` links save to `~/Downloads`
   without overwriting (`name 2.ext`), quarantined for Gatekeeper, with a notice while they run.
   A failed download leaves no partial file and says why. ⌥⌘L shows the latest one in Finder.
+- Video players' full-screen buttons work: pages may show an element full screen.
