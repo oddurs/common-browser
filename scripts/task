@@ -66,6 +66,14 @@ test_all() {
 	fi
 }
 
+# The Rust workspace alone, for the Linux and Windows runners, which have no Swift toolchain. The
+# core serves every shell, so it must build and pass there too.
+check_core() {
+	cargo fmt --all --check
+	lint
+	cargo test --workspace --locked
+}
+
 build() {
 	cargo build --workspace --locked
 	swift_core
@@ -80,7 +88,7 @@ record_pass() {
 }
 
 usage() {
-	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check>" >&2
+	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check|check:core>" >&2
 	exit 2
 }
 
@@ -99,5 +107,6 @@ check)
 	build
 	record_pass
 	;;
+check:core) check_core ;;
 *) usage ;;
 esac
