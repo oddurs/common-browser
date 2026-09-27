@@ -184,7 +184,13 @@ pub fn load() -> Result<(Config, Vec<ConfigError>), LoadError> {
 pub fn load_from(path: &Path) -> Result<(Config, Vec<ConfigError>), LoadError> {
     match std::fs::read_to_string(path) {
         Ok(text) => Ok(parse(&text)),
-        Err(err) if err.kind() == io::ErrorKind::NotFound => Ok((Config::default(), Vec::new())),
+        // Windows reports some paths that exist but cannot be read as a file, such as a
+        // directory, as not found. Only a path that is really absent means "use the defaults".
+        Err(err)
+            if err.kind() == io::ErrorKind::NotFound && matches!(path.try_exists(), Ok(false)) =>
+        {
+            Ok((Config::default(), Vec::new()))
+        }
         Err(source) => Err(LoadError::Read {
             path: path.to_path_buf(),
             source,
@@ -770,16 +776,23 @@ engine = \"https://duckduckgo.com/\"
         assert_eq!(edit_distance("", "abc"), 3);
     }
 
+    /// An absolute directory on every platform: `/xdg` is not absolute on Windows.
+    fn absolute(name: &str) -> PathBuf {
+        std::env::temp_dir().join(name)
+    }
+
     #[test]
     fn the_path_prefers_an_absolute_xdg_config_home() {
-        let path = default_path(Some(OsStr::new("/xdg")), Some(OsStr::new("/home/me")));
-        assert_eq!(path, Some(PathBuf::from("/xdg/common/common.toml")));
+        let (xdg, home) = (absolute("xdg"), absolute("home"));
+        let path = default_path(Some(xdg.as_os_str()), Some(home.as_os_str()));
+        assert_eq!(path, Some(xdg.join("common").join("common.toml")));
     }
 
     #[test]
     fn the_path_falls_back_to_home() {
-        let expected = Some(PathBuf::from("/home/me/.config/common/common.toml"));
-        let home = Some(OsStr::new("/home/me"));
+        let home = absolute("home");
+        let expected = Some(home.join(".config").join("common").join("common.toml"));
+        let home = Some(home.as_os_str());
         assert_eq!(default_path(None, home), expected);
         assert_eq!(default_path(Some(OsStr::new("")), home), expected);
         assert_eq!(default_path(Some(OsStr::new("relative")), home), expected);
@@ -793,7 +806,9 @@ engine = \"https://duckduckgo.com/\"
 
     #[test]
     fn a_missing_file_gives_the_defaults_without_errors() {
-        let path = std::env::temp_dir().join("common-config-test-missing/common.toml");
+        let path = std::env::temp_dir()
+            .join("common-config-test-missing")
+            .join("common.toml");
         let (config, errors) = load_from(&path).expect("a missing file is not an error");
         assert_eq!(config, Config::default());
         assert_eq!(errors, Vec::new());
