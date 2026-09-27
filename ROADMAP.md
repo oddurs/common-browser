@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`####······` 39% · 9 of 23 done · due 2026-11-13
+`#####·····` 44% · 11 of 25 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -32,11 +32,13 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 
 - [x] [`355bebe7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/355bebe7-8757-4197-8c01-df92624fc0d5-command-registry-and-menu-bar.md) Command registry and menu bar <sup>feature · p0 · input</sup>
 - [x] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
+- [x] [`5a5be429`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5a5be429-42b6-4767-9222-cdb12a2db911-swift-test-can-report-success-without-running-every-test.md) swift test can report success without running every test <sup>bug · p0 · release</sup>
 - [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
 - [x] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
 - [x] [`a5325703`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a5325703-e633-467d-9801-5a94139c7e9e-smoke-test-load-a-local-page-in-a-web-view-under-swift-test.md) Smoke test: load a local page in a web view under swift test <sup>chore · p1 · macos</sup>
 - [x] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
 - [x] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
+- [x] [`d197db90`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d197db90-97de-4497-9453-1793c9e1cc8e-ui-tests-fail-when-the-machine-is-heavily-loaded.md) UI tests fail when the machine is heavily loaded <sup>bug · p0 · release</sup>
 - [x] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
 - [x] [`fcb89b44`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fcb89b44-5b91-4f8e-9c37-d8227399e0c9-parse-common-toml-into-a-typed-config.md) Parse common.toml into a typed config <sup>feature · p0 · config</sup>
 
