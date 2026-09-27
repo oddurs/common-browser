@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`###·······` 22% · 5 of 23 done · due 2026-11-13
+`###·······` 26% · 6 of 23 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -16,7 +16,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`2e08777c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/2e08777c-7da0-4f69-9413-c68dec13af1e-find-in-page.md) Find in page <sup>feature · p1 · web</sup>
 - [ ] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [ ] [`4cc437aa`](https://github.com/oddurs/common-browser/blob/main/cairn/items/4cc437aa-c4a6-463b-8620-1ca0a92411dc-javascript-dialogs-and-file-pickers.md) JavaScript dialogs and file pickers <sup>feature · p0 · web</sup>
-- [ ] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
 - [ ] [`7f4481e9`](https://github.com/oddurs/common-browser/blob/main/cairn/items/7f4481e9-3a6a-4a63-87e3-3b514f7c84cb-downloads.md) Downloads <sup>feature · p1 · web</sup>
@@ -33,6 +32,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 
 - [x] [`355bebe7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/355bebe7-8757-4197-8c01-df92624fc0d5-command-registry-and-menu-bar.md) Command registry and menu bar <sup>feature · p0 · input</sup>
 - [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
+- [x] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
 - [x] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
 - [x] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
 - [x] [`fcb89b44`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fcb89b44-5b91-4f8e-9c37-d8227399e0c9-parse-common-toml-into-a-typed-config.md) Parse common.toml into a typed config <sup>feature · p0 · config</sup>
