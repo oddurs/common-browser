@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`####······` 30% · 7 of 23 done · due 2026-11-13
+`####······` 35% · 8 of 23 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -14,7 +14,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`1778290b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/1778290b-d0fa-4561-b095-36bd85f01755-capsule-title-position-and-loading-state.md) Capsule: title, position and loading state <sup>feature · p1 · chrome</sup>
 - [ ] [`266d12d4`](https://github.com/oddurs/common-browser/blob/main/cairn/items/266d12d4-7099-406d-9c75-4e60a0fd8151-load-common-toml-at-launch-and-open-it-with.md) Load common.toml at launch and open it with ⌘, <sup>feature · p0 · config</sup>
 - [ ] [`2e08777c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/2e08777c-7da0-4f69-9413-c68dec13af1e-find-in-page.md) Find in page <sup>feature · p1 · web</sup>
-- [ ] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [ ] [`4cc437aa`](https://github.com/oddurs/common-browser/blob/main/cairn/items/4cc437aa-c4a6-463b-8620-1ca0a92411dc-javascript-dialogs-and-file-pickers.md) JavaScript dialogs and file pickers <sup>feature · p0 · web</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
@@ -33,6 +32,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 ### done
 
 - [x] [`355bebe7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/355bebe7-8757-4197-8c01-df92624fc0d5-command-registry-and-menu-bar.md) Command registry and menu bar <sup>feature · p0 · input</sup>
+- [x] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
 - [x] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
 - [x] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
