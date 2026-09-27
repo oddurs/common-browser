@@ -13,6 +13,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   private var webViews: [UInt64: WKWebView] = [:]
   private let pageDelegate = PageDelegate()
   private let container = NSView()
+  let find = FindState()
 
   /// The page on screen.
   public var currentWebView: WKWebView? {
@@ -91,14 +92,16 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   /// scroll position, form contents and running scripts.
   private func show(_ id: UInt64?) {
     guard let id, let webView = webViews[id] else { return }
-    for view in container.subviews where view !== webView {
+    for view in container.subviews where view is WKWebView && view !== webView {
       view.removeFromSuperview()
     }
     if webView.superview !== container {
       webView.frame = container.bounds
       webView.autoresizingMask = [.width, .height]
-      container.addSubview(webView)
+      // Below the find bar and anything else that floats over the page.
+      container.addSubview(webView, positioned: .below, relativeTo: nil)
     }
+    closeFind()
     window?.makeFirstResponder(webView)
   }
 }
