@@ -1,16 +1,23 @@
 import WebKit
 
 /// Loads `html` into `webView` and waits for that navigation to finish, ignoring any load already
-/// under way. The page's own navigation delegate is set aside for the load and put back after.
+/// under way.
 @MainActor
 func load(_ webView: WKWebView, html: String) async throws {
+  try await navigate(webView) { $0.loadHTMLString(html, baseURL: nil) }
+}
+
+/// Starts a navigation with `start` and waits for it to finish. The page's own navigation delegate
+/// is set aside meanwhile and put back after.
+@MainActor
+func navigate(_ webView: WKWebView, _ start: (WKWebView) -> WKNavigation?) async throws {
   let waiter = NavigationWaiter()
   let original = webView.navigationDelegate
   webView.navigationDelegate = waiter
   defer { webView.navigationDelegate = original }
   try await withCheckedThrowingContinuation { continuation in
     waiter.continuation = continuation
-    waiter.navigation = webView.loadHTMLString(html, baseURL: nil)
+    waiter.navigation = start(webView)
   }
 }
 
