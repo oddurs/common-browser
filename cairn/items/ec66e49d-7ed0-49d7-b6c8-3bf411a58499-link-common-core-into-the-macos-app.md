@@ -2,12 +2,13 @@
 id: ec66e49d-7ed0-49d7-b6c8-3bf411a58499
 title: Link common-core into the macOS app
 type: feature
-status: doing
+status: done
 milestone: v0.1
 depends_on:
 - 5ad0243e-deab-4e83-bacc-abce83512afc
 created: 2026-09-26
 updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: bridge
@@ -26,5 +27,5 @@ before SwiftPM, so the seam stays the only entry point.
 ## Acceptance criteria
 
 - [x] The About panel shows the version read from `common-core`.
-- [ ] A Swift test calls into Rust and passes under `scripts/task test`, locally without Xcode and on CI.
+- [x] A Swift test calls into Rust and passes under `scripts/task test`, locally without Xcode and on CI.
 - [x] A clean clone builds with `scripts/setup` followed by `scripts/task build`, with no manual steps.
