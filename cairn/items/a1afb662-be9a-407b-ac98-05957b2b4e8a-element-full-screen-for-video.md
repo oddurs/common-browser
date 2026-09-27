@@ -2,10 +2,10 @@
 id: a1afb662-be9a-407b-ac98-05957b2b4e8a
 title: Element full screen for video
 type: feature
-status: planned
+status: doing
 milestone: v0.1
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
 priority: p1
 effort: s
 area: web
