@@ -1,5 +1,6 @@
 import AppKit
 import CommonApp
+import CommonCore
 
 @MainActor
 final class AppDelegate: NSObject, NSApplicationDelegate, BrowserActions {
@@ -10,10 +11,27 @@ final class AppDelegate: NSObject, NSApplicationDelegate, BrowserActions {
     // their Show Tab Bar items to the menus.
     NSWindow.allowsAutomaticWindowTabbing = false
     installMenuBar(in: NSApp)
-    let controller = BrowserWindowController(url: startURL(arguments: CommandLine.arguments))
+    let loaded = loadConfig()
+    let home = URL(string: loaded.settings.home) ?? URL(string: "about:blank")!
+    let controller = BrowserWindowController(
+      url: startURL(arguments: CommandLine.arguments, home: home), home: home)
     controller.showWindow(nil)
+    if let text = configBannerText(for: loaded) {
+      controller.showConfigBanner(text)
+    }
+    if loaded.settings.startFullScreen {
+      controller.window?.toggleFullScreen(nil)
+    }
     windowController = controller
     NSApp.activate()
+  }
+
+  func openConfig(_ sender: Any?) {
+    do {
+      try openConfigFile(open: openInEditor)
+    } catch {
+      NSApp.presentError(error)
+    }
   }
 
   func showAbout(_ sender: Any?) {

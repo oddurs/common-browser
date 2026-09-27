@@ -171,12 +171,16 @@ pub fn default_path(xdg_config_home: Option<&OsStr>, home: Option<&OsStr>) -> Op
     Some(base.join("common").join("common.toml"))
 }
 
-/// Loads `common.toml` from [`default_path`], reading the variables from the environment.
-pub fn load() -> Result<(Config, Vec<ConfigError>), LoadError> {
+/// [`default_path`] with the variables read from the environment.
+pub fn env_path() -> Option<PathBuf> {
     let xdg = std::env::var_os("XDG_CONFIG_HOME");
     let home = std::env::var_os("HOME");
-    let path = default_path(xdg.as_deref(), home.as_deref()).ok_or(LoadError::NoConfigDir)?;
-    load_from(&path)
+    default_path(xdg.as_deref(), home.as_deref())
+}
+
+/// Loads `common.toml` from [`env_path`].
+pub fn load() -> Result<(Config, Vec<ConfigError>), LoadError> {
+    load_from(&env_path().ok_or(LoadError::NoConfigDir)?)
 }
 
 /// Loads the config at `path`. A missing file is not an error: it means every key has its
@@ -195,6 +199,54 @@ pub fn load_from(path: &Path) -> Result<(Config, Vec<ConfigError>), LoadError> {
             path: path.to_path_buf(),
             source,
         }),
+    }
+}
+
+/// The file written the first time someone opens their config: every key, commented out, at its
+/// default. There is no settings window, so the file has to document itself.
+pub const TEMPLATE: &str = r##"# common.toml: every setting Common Browser reads. Uncomment a line to change it.
+# Run `common config check` to find mistakes; each is reported with its line.
+
+# The page a new window or page opens.
+# home = "about:blank"
+
+# The theme in dark mode, and in light mode: graphite or paper.
+# theme = "graphite"
+# theme_light = "paper"
+
+# The accent colour, as #rrggbb.
+# accent = "#d9895b"
+
+[window]
+# How a new window first appears: "windowed" or "fullscreen".
+# start = "windowed"
+
+[search]
+# Where searches from the launcher go. %s is replaced by what you typed.
+# engine = "https://duckduckgo.com/?q=%s"
+
+[keys]
+# Which keyboard shortcuts to use. Only "standard" exists until vim keys arrive in v0.3.
+# mode = "standard"
+"##;
+
+/// Writes [`TEMPLATE`] to `path`, creating its directory, unless a file is already there. Returns
+/// whether it wrote one. An existing file is never touched, however it looks.
+pub fn create_if_missing(path: &Path) -> io::Result<bool> {
+    if let Some(dir) = path.parent() {
+        std::fs::create_dir_all(dir)?;
+    }
+    match std::fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(path)
+    {
+        Ok(mut file) => {
+            io::Write::write_all(&mut file, TEMPLATE.as_bytes())?;
+            Ok(true)
+        }
+        Err(err) if err.kind() == io::ErrorKind::AlreadyExists => Ok(false),
+        Err(err) => Err(err),
     }
 }
 
@@ -837,5 +889,79 @@ engine = \"https://duckduckgo.com/\"
             err.to_string().contains(&dir.display().to_string()),
             "{err}"
         );
+    }
+
+    /// The template with every commented-out setting switched on.
+    fn uncommented(template: &str) -> String {
+        template
+            .lines()
+            .map(|line| match line.strip_prefix("# ") {
+                Some(rest)
+                    if rest
+                        .split_once(" = ")
+                        .is_some_and(|(key, _)| !key.contains(' ')) =>
+                {
+                    rest
+                }
+                _ => line,
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+    }
+
+    #[test]
+    fn the_template_as_written_gives_the_defaults() {
+        assert_eq!(parse(TEMPLATE), (Config::default(), Vec::new()));
+    }
+
+    #[test]
+    fn the_template_with_every_setting_on_gives_the_defaults() {
+        let text = uncommented(TEMPLATE);
+        assert_ne!(
+            text, TEMPLATE,
+            "the template should contain settings to switch on"
+        );
+        assert_eq!(parse(&text), (Config::default(), Vec::new()));
+    }
+
+    #[test]
+    fn the_template_lists_every_key() {
+        let text = uncommented(TEMPLATE);
+        let (root, _) = DeTable::parse_recoverable(&text);
+        let mut found: Vec<String> = Vec::new();
+        for (key, value) in root.get_ref() {
+            match value.get_ref().as_table() {
+                Some(table) => found.extend(
+                    table
+                        .iter()
+                        .map(|(k, _)| format!("{}.{}", key.get_ref(), k.get_ref())),
+                ),
+                None => found.push(key.get_ref().to_string()),
+            }
+        }
+        found.sort();
+        let mut expected: Vec<String> = TOP_LEVEL
+            .iter()
+            .filter(|key| !["window", "search", "keys"].contains(key))
+            .map(|key| key.to_string())
+            .chain(["window.start", "search.engine", "keys.mode"].map(String::from))
+            .collect();
+        expected.sort();
+        assert_eq!(found, expected);
+    }
+
+    #[test]
+    fn create_if_missing_writes_the_template_once() {
+        let dir = std::env::temp_dir().join(format!("common-config-create-{}", std::process::id()));
+        let path = dir.join("nested").join("common.toml");
+        assert!(create_if_missing(&path).unwrap());
+        assert_eq!(std::fs::read_to_string(&path).unwrap(), TEMPLATE);
+        std::fs::write(&path, "theme = \"paper\"\n").unwrap();
+        assert!(!create_if_missing(&path).unwrap());
+        assert_eq!(
+            std::fs::read_to_string(&path).unwrap(),
+            "theme = \"paper\"\n"
+        );
+        std::fs::remove_dir_all(dir).unwrap();
     }
 }
