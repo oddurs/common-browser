@@ -8,6 +8,9 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `common.toml` is read at launch: `home`, `window.start` and `search.engine` apply, and a mistake
+  shows a banner naming its line while every other key still applies. ⌘, opens the file, first
+  writing one with every setting commented out.
 - A menu bar that lists every command with its shortcut, including standard editing (copy, paste,
   undo) inside pages.
 - `common config check [--path FILE]` reports each error in `common.toml` as

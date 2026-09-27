@@ -20,7 +20,7 @@ let package = Package(
       ]
     ),
     .target(name: "CommonApp", dependencies: ["CommonCore"]),
-    .executableTarget(name: "CommonBrowser", dependencies: ["CommonApp"]),
+    .executableTarget(name: "CommonBrowser", dependencies: ["CommonApp", "CommonCore"]),
     .testTarget(name: "CommonAppTests", dependencies: ["CommonApp"]),
   ]
 )

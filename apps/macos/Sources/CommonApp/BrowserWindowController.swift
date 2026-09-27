@@ -14,6 +14,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   private let pageDelegate = PageDelegate()
   private let container = NSView()
   let find = FindState()
+  private let home: URL
 
   /// The page on screen.
   public var currentWebView: WKWebView? {
@@ -25,7 +26,9 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   /// The key under which AppKit saves the window's frame between launches.
   static let frameName = "BrowserWindow"
 
-  public init(url: URL) {
+  /// `home` is what a new page opens.
+  public init(url: URL, home: URL = URL(string: "about:blank")!) {
+    self.home = home
     // The page owns the window: no toolbar, a transparent title bar, content under it.
     let window = NSWindow(
       contentRect: NSRect(x: 0, y: 0, width: 1280, height: 800),
@@ -65,7 +68,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   }
 
   public func newPage(_ sender: Any?) {
-    openPage(URL(string: "about:blank")!)
+    openPage(home)
   }
 
   public func closePage(_ sender: Any?) {
@@ -103,5 +106,16 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
     }
     closeFind()
     window?.makeFirstResponder(webView)
+  }
+
+  /// Pins a notice about `common.toml` to the top of the window, over every page.
+  public func showConfigBanner(_ text: String) {
+    let banner = ConfigBanner(text: text)
+    container.addSubview(banner)
+    NSLayoutConstraint.activate([
+      banner.topAnchor.constraint(equalTo: container.topAnchor, constant: 10),
+      banner.centerXAnchor.constraint(equalTo: container.centerXAnchor),
+      banner.widthAnchor.constraint(lessThanOrEqualTo: container.widthAnchor, constant: -160),
+    ])
   }
 }
