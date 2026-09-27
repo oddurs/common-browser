@@ -3,6 +3,11 @@
 # before it touches the network.
 set -eu
 
+# Git exports GIT_DIR and friends to hooks, and this runs from the pre-push hook. Left set, they
+# point every git command below at the real repository instead of the throwaway one.
+# shellcheck disable=SC2046 # one variable name per word
+unset $(git rev-parse --local-env-vars)
+
 here=$(cd "$(dirname "$0")/.." && pwd)
 tmp=$(mktemp -d)
 trap 'rm -rf "$tmp"' EXIT
@@ -40,6 +45,10 @@ repo=$tmp/repo
 mkdir "$repo"
 cp -R "$here/scripts" "$here/.githooks" "$here/.github" "$repo/"
 git -C "$repo" init --quiet -b main
+[ "$(git -C "$repo" rev-parse --absolute-git-dir)" = "$(cd "$repo" && pwd -P)/.git" ] || {
+	echo "test-workflow: git is not using the throwaway repository; refusing to continue" >&2
+	exit 1
+}
 git -C "$repo" config user.name Test
 git -C "$repo" config user.email test@example.com
 git -C "$repo" config core.hooksPath .githooks
