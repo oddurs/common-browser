@@ -43,6 +43,10 @@ share a checkout.
 The pre-commit hook runs format and lint; the pre-push hook runs everything and refuses pushes
 to `main`. CI runs the same `scripts/task check`.
 
+Xcode is not required. With only the Command Line Tools installed, `scripts/task test` points
+`swift test` at the Testing framework the Command Line Tools ship, which SwiftPM does not find on
+its own.
+
 ## Reviews
 
 `main` requires a pull request with a passing `required` check and resolved conversations.
