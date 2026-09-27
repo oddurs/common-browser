@@ -1,0 +1,12 @@
+[package]
+name = "uniffi-bindgen"
+description = "Generates the Swift bindings for common-ffi"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+
+[dependencies]
+uniffi = { version = "0.32", features = ["cli"] }

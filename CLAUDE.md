@@ -9,8 +9,12 @@ Rust core that Linux and Windows shells will share.
   No UI toolkit, no web engine, no platform APIs. If it can't be unit-tested without a window, it
   doesn't belong here.
 - `crates/common-cli`: the `common` binary. Thin; logic lives in the core.
+- `crates/common-ffi`: the core's Swift face, exported with UniFFI. Only conversions and
+  forwarding; logic belongs in `common-core`. `crates/uniffi-bindgen` generates the bindings.
 - `apps/macos`: the Swift package for the macOS shell (AppKit + WKWebView). `CommonApp` is the
-  testable library; `CommonBrowser` is the thin executable.
+  testable library; `CommonBrowser` is the thin executable. `apps/macos/Generated/` holds the
+  generated bindings and static library: `scripts/task` writes it, git ignores it, never edit it.
+  Run `scripts/task build` before `swift build` or `swift run`.
 - `prototype/`: a SvelteKit design prototype. Reference only: not in `scripts/task`, not shipped.
   Change it only when asked.
 

@@ -9,6 +9,27 @@ cd "$(dirname "$0")/.."
 
 SWIFT_PACKAGE=apps/macos
 SWIFT_SOURCES="$SWIFT_PACKAGE/Package.swift $SWIFT_PACKAGE/Sources $SWIFT_PACKAGE/Tests"
+GENERATED=$SWIFT_PACKAGE/Generated
+
+# Copies only when the content differs, so SwiftPM does not rebuild what did not change.
+install_if_changed() {
+	cmp -s "$1" "$2" 2>/dev/null || cp "$1" "$2"
+}
+
+# SwiftPM cannot run cargo, so every Swift step that compiles first builds common-core's static
+# library and generates its Swift bindings into Generated/, which Package.swift reads.
+swift_core() {
+	cargo build --locked -p common-ffi
+	out=$(mktemp -d)
+	cargo run --locked --quiet -p uniffi-bindgen -- generate --language swift \
+		--library target/debug/libcommon_ffi.a --out-dir "$out"
+	mkdir -p "$GENERATED/CommonCore" "$GENERATED/CommonCoreFFI" "$GENERATED/lib"
+	install_if_changed "$out/CommonCore.swift" "$GENERATED/CommonCore/CommonCore.swift"
+	install_if_changed "$out/CommonCoreFFI.h" "$GENERATED/CommonCoreFFI/CommonCoreFFI.h"
+	install_if_changed "$out/CommonCoreFFI.modulemap" "$GENERATED/CommonCoreFFI/module.modulemap"
+	install_if_changed target/debug/libcommon_ffi.a "$GENERATED/lib/libcommon_ffi.a"
+	rm -rf "$out"
+}
 
 fmt() {
 	cargo fmt --all
@@ -29,6 +50,7 @@ lint() {
 test_all() {
 	scripts/test-workflow
 	cargo test --workspace --locked
+	swift_core
 	# Without Xcode, SwiftPM neither finds the Testing framework nor its interop library, so
 	# point the compiler and the test runner at the copies Command Line Tools ships.
 	clt=/Library/Developer/CommandLineTools
@@ -46,6 +68,7 @@ test_all() {
 
 build() {
 	cargo build --workspace --locked
+	swift_core
 	swift build --package-path "$SWIFT_PACKAGE" -Xswiftc -warnings-as-errors
 }
 

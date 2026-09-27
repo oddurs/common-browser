@@ -1,0 +1,16 @@
+[package]
+name = "common-ffi"
+description = "Swift bindings for common-core, generated with UniFFI"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+rust-version.workspace = true
+publish = false
+
+[lib]
+crate-type = ["staticlib", "lib"]
+
+[dependencies]
+common-core = { path = "../common-core" }
+uniffi = "0.32"

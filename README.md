@@ -15,8 +15,9 @@ This is the very start of the project.
 - **`crates/common-core`**: the platform-independent core that every shell will share. Today it
   only carries the version.
 - **`crates/common-cli`**: the `common` command. Today it answers `common --version`.
+- **`crates/common-ffi`**: the core exported to Swift with [UniFFI](https://mozilla.github.io/uniffi-rs/).
 - **`apps/macos`**: the macOS app. Today it opens one window with a web view and loads the address
-  you pass it.
+  you pass it; its About panel reports the core's version.
 - **`prototype/`**: a web prototype of the interaction design (Spaces, the launcher, tiling, the
   config file). It is a design reference, not part of the product; see
   [prototype/README.md](prototype/README.md).
@@ -30,6 +31,7 @@ from Xcode or the Command Line Tools (`xcode-select --install`).
 git clone https://github.com/oddurs/common-browser
 cd common-browser
 scripts/setup
+scripts/task build   # builds the Rust core and its Swift bindings, then the app
 
 swift run --package-path apps/macos CommonBrowser https://example.org
 cargo run -p common-cli -- --version
