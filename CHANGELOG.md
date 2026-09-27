@@ -24,3 +24,6 @@ All notable changes to this project are documented here. The format follows
   without overwriting (`name 2.ext`), quarantined for Gatekeeper, with a notice while they run.
   A failed download leaves no partial file and says why. ⌥⌘L shows the latest one in Finder.
 - Video players' full-screen buttons work: pages may show an element full screen.
+- Back (⌘[), Forward (⌘]), Reload (⌘R) and Stop (⌘.) act on the page wherever focus is, and their
+  menu items are disabled when they cannot act. ⇧⌘C copies the page's address. Two-finger swipes
+  go back and forward.

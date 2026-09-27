@@ -14,6 +14,10 @@ import AppKit
   @objc optional func showFind(_ sender: Any?)
   @objc optional func findNextMatch(_ sender: Any?)
   @objc optional func findPreviousMatch(_ sender: Any?)
+  @objc optional func navigateBack(_ sender: Any?)
+  @objc optional func navigateForward(_ sender: Any?)
+  @objc optional func reloadPage(_ sender: Any?)
+  @objc optional func stopLoadingPage(_ sender: Any?)
   @objc optional func previousPage(_ sender: Any?)
   @objc optional func nextPage(_ sender: Any?)
 }
@@ -170,22 +174,25 @@ extension Command {
       shortcut: Shortcut("g", [.shift, .command]),
       action: #selector(BrowserActions.findPreviousMatch(_:))),
 
-    // WKWebView implements these itself, so they work whenever a page has focus.
+    // The window, not WKWebView's own `reload:` and friends, handles navigation: those work only
+    // while the page has focus and would leave the items enabled when they cannot act.
     Command(
       "reload", "Reload Page", in: .view, shortcut: Shortcut("r"),
-      action: Selector(("reload:"))),
+      action: #selector(BrowserActions.reloadPage(_:))),
     Command(
       "stop", "Stop Loading", in: .view, shortcut: Shortcut("."),
-      action: Selector(("stopLoading:"))),
+      action: #selector(BrowserActions.stopLoadingPage(_:))),
     Command(
       "full-screen", "Enter Full Screen", in: .view, group: 1,
       shortcut: Shortcut("f", [.control, .command]),
       action: #selector(NSWindow.toggleFullScreen(_:))),
 
-    Command("back", "Back", in: .history, shortcut: Shortcut("["), action: Selector(("goBack:"))),
+    Command(
+      "back", "Back", in: .history, shortcut: Shortcut("["),
+      action: #selector(BrowserActions.navigateBack(_:))),
     Command(
       "forward", "Forward", in: .history, shortcut: Shortcut("]"),
-      action: Selector(("goForward:"))),
+      action: #selector(BrowserActions.navigateForward(_:))),
 
     Command(
       "minimize", "Minimize", in: .window, shortcut: Shortcut("m"),

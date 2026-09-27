@@ -9,6 +9,8 @@ public func makePageWebView(delegate: PageDelegate) -> WKWebView {
   let webView = WKWebView(frame: .zero, configuration: configuration)
   webView.navigationDelegate = delegate
   webView.uiDelegate = delegate
+  // Two-finger swipes go back and forward with WebKit's own gesture, as in Safari.
+  webView.allowsBackForwardNavigationGestures = true
   return webView
 }
 
