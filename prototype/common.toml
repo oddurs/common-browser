@@ -1,0 +1,40 @@
+# common.toml — the only settings screen. Save to apply.
+
+theme       = "graphite"        # graphite, or any terminal theme: tokyo-night catppuccin gruvbox nord rose-pine everforest
+theme_light = "paper"           # used while macOS is in light mode
+
+[font]
+ui   = "system"
+mono = "SF Mono"                # key hints and code only
+
+[window]
+start      = "windowed"         # windowed | fullscreen  (green button or ⌃⌘F switches)
+chrome     = "capsule"          # capsule | bar | none
+hide_after = "0.8s"
+
+[tiling]
+layout = "master"               # master | columns | monocle
+gaps   = 8
+focus  = "border"               # border | glow | none
+
+[keys]
+mode = "standard"               # standard | vim  (vim adds j/k, gg, f, H/L and friends)
+
+[launcher]
+search   = "https://duckduckgo.com/?q=%s"
+bangs.gh = "https://github.com/search?q=%s"
+
+# Spaces open in this order. tint: sage blue sand clay plum slate. jar: share logins between Spaces.
+[[space]]
+name = "reading"
+open = ["notes"]
+
+[[space]]
+name = "dev"
+tint = "blue"
+jar  = "work"
+open = ["pr", "tessera"]
+
+[[space]]
+name = "feeds"
+open = ["forum"]

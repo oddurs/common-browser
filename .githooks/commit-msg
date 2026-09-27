@@ -1,0 +1,27 @@
+#!/bin/sh
+# Conventional Commits, a short subject, and no AI or assistant attribution anywhere.
+set -eu
+
+file=$1
+subject=$(sed -n '1p' "$file")
+
+case "$subject" in
+fixup!\ * | squash!\ * | Merge\ * | Revert\ *) exit 0 ;;
+esac
+
+if ! printf '%s\n' "$subject" | grep -Eq '^(feat|fix|chore|docs|perf|refactor|test|build|ci|style|revert)(\([a-z0-9._/-]+\))?!?: [^ ].*[^. ]$'; then
+	echo "commit-msg: the subject must be a Conventional Commit without a trailing period," >&2
+	echo "            for example: feat(core): parse common.toml" >&2
+	exit 1
+fi
+
+length=$(printf '%s' "$subject" | wc -m | tr -d ' ')
+if [ "$length" -gt 72 ]; then
+	echo "commit-msg: the subject is $length characters; keep it to 72" >&2
+	exit 1
+fi
+
+if grep -v '^#' "$file" | grep -Eiq 'co-authored-by:.*(claude|anthropic|copilot|chatgpt|openai|gemini|cursor)|noreply@anthropic\.com|generated (with|by) .*(claude|chatgpt|copilot|gemini|an? ai)|🤖'; then
+	echo "commit-msg: remove the AI or assistant attribution from the message" >&2
+	exit 1
+fi

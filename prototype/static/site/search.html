@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Search</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #1B1C20; font: 15px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  header { padding: 22px clamp(20px, 8vw, 120px); border-bottom: 1px solid #EDEDEB; display: flex; gap: 18px; align-items: center; }
+  .logo { font-weight: 700; letter-spacing: -.02em; }
+  form { flex: 1; max-width: 640px; }
+  input { width: 100%; height: 42px; padding: 0 16px; border: 1px solid #D9D9D5; border-radius: 21px; font: inherit; }
+  main { padding: 18px clamp(20px, 8vw, 120px) 80px; max-width: 900px; }
+  .via { font-size: 13px; color: #5E6068; margin-bottom: 18px; }
+  .via code { font: 12px ui-monospace, 'SF Mono', monospace; background: #F2F2F0; padding: 2px 6px; border-radius: 4px; }
+  .r { padding: 14px 0; border-bottom: 1px solid #F2F2F0; display: grid; gap: 4px; }
+  .r .u { font: 12px ui-monospace, 'SF Mono', monospace; color: #3C7A4A; }
+  .r a { font-size: 18px; color: #2D4FB0; text-decoration: none; }
+  .r a:hover { text-decoration: underline; }
+  .r p { margin: 0; color: #4A4D55; line-height: 1.5; }
+</style>
+</head>
+<body>
+<header>
+  <span class="logo">search.example</span>
+  <form action="/site/search.html"><input name="q" id="q" aria-label="Search"></form>
+</header>
+<main>
+  <div class="via" id="via"></div>
+  <div id="results"></div>
+</main>
+<script>
+  const params = new URLSearchParams(location.search);
+  const q = params.get('q') || '';
+  const via = params.get('via');
+  document.getElementById('q').value = q;
+  document.title = (q || 'Search') + ' — Search';
+  document.getElementById('via').innerHTML = via
+    ? 'Results for <strong></strong> via <code>!' + via.replace(/[^\w-]/g, '') + '</code>. In the prototype every search lands here; the real app opens the address from <code>[launcher] bangs</code>.'
+    : 'Results for <strong></strong>. In the prototype every search lands here.';
+  document.querySelector('#via strong').textContent = q;
+
+  const pages = [
+    ['/site/notes.html', 'notes.example.org/scroll-physics', 'The physics of a good scroll', 'Why momentum, friction and a rubber-band edge decide whether a page feels alive or merely works.'],
+    ['/site/tessera.html', 'tessera.example.dev/guide/layout', 'Layout primitives — tessera', 'Every screen is built from two containers: a stack and a grid. Both take a gap, never margins.'],
+    ['/site/pr.html', 'code.example.dev/common/browser/pull/418', 'Keep panes alive across workspace switches · #418', 'Hiding the view instead of removing it keeps compositor layers and scroll position.'],
+    ['/site/forum.html', 'forum.example.net/front', 'Forum — front page', 'Links and discussion about tools, interfaces and the craft of software.'],
+    ['/site/playground.html', 'localhost:5173/boards/new', 'tessera playground', 'Try grid layouts live: columns, gaps, and cards.']
+  ];
+  const words = q.toLowerCase().split(/\s+/).filter(Boolean);
+  const score = (p) => words.filter((w) => (p[2] + ' ' + p[3] + ' ' + p[1]).toLowerCase().includes(w)).length;
+  const ranked = [...pages].sort((a, b) => score(b) - score(a));
+  const results = document.getElementById('results');
+  for (const [href, url, title, text] of ranked) {
+    const r = document.createElement('div');
+    r.className = 'r';
+    const u = document.createElement('span'); u.className = 'u'; u.textContent = url;
+    const a = document.createElement('a'); a.href = href; a.textContent = title;
+    const p = document.createElement('p'); p.textContent = text;
+    r.append(u, a, p);
+    results.append(r);
+  }
+</script>
+</body>
+</html>

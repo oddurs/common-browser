@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>New pane</title>
+<style>
+  :root { --bg: #f6f5f3; --tile: #ffffff; --fg: #1d1d1f; --muted: #6e6e73; --line: rgba(0, 0, 0, .08); color-scheme: light; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1e1e20; --tile: #2a2a2d; --fg: #ececee; --muted: #a1a1a6; --line: rgba(255, 255, 255, .08); color-scheme: dark; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; min-height: 100vh; display: grid; place-content: center; gap: 28px; padding: 40px 20px; background: var(--bg); color: var(--fg); font: 13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  h1 { margin: 0; font-size: 13px; font-weight: 600; color: var(--muted); text-align: center; letter-spacing: .02em; }
+  ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 120px); gap: 22px 28px; justify-content: center; }
+  a { display: grid; justify-items: center; gap: 8px; color: inherit; text-decoration: none; }
+  .tile { position: relative; width: 64px; height: 64px; border-radius: 16px; display: grid; place-items: center; background: var(--tile); box-shadow: 0 0 0 .5px var(--line), 0 2px 8px rgba(0, 0, 0, .06); font-size: 24px; font-weight: 600; }
+  .key { position: absolute; right: -5px; bottom: -5px; width: 18px; height: 18px; border-radius: 9px; display: grid; place-items: center; background: var(--bg); box-shadow: 0 0 0 .5px var(--line); font: 600 10px ui-monospace, 'SF Mono', monospace; color: var(--muted); }
+  .name { max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  a:hover .tile, a:focus-visible .tile { box-shadow: 0 0 0 2px rgba(217, 137, 91, .7); outline: none; }
+  a:focus-visible { outline: none; }
+  p { margin: 0; text-align: center; color: var(--muted); }
+</style>
+</head>
+<body>
+<h1>Frequently visited</h1>
+<ol>
+  <li><a data-key="1" href="/site/notes.html"><span class="tile" style="color:#A04A28">F<span class="key">1</span></span><span class="name">Field Notes</span></a></li>
+  <li><a data-key="2" href="/site/forum.html"><span class="tile">≡<span class="key">2</span></span><span class="name">Forum</span></a></li>
+  <li><a data-key="3" href="/site/tessera.html"><span class="tile" style="font-family: ui-monospace, 'SF Mono', monospace">t<span class="key">3</span></span><span class="name">tessera</span></a></li>
+  <li><a data-key="4" href="/site/pr.html"><span class="tile" style="color:#6BC685">#<span class="key">4</span></span><span class="name">Pull request #418</span></a></li>
+  <li><a data-key="5" href="/site/playground.html"><span class="tile" style="color:#2D5BD1">▦<span class="key">5</span></span><span class="name">Playground</span></a></li>
+  <li><a data-key="6" href="/site/search.html?q=tiling+window+managers"><span class="tile">⌕<span class="key">6</span></span><span class="name">Tiling, searched</span></a></li>
+</ol>
+<p>Press a number, or <b>o</b> to go anywhere.</p>
+</body>
+</html>

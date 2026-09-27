@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Pull request #418 · common/browser</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #0F1115; color: #D4D7DD; font: 14px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  header { padding: 26px 30px 0; border-bottom: 1px solid #252932; }
+  .repo { font: 12px ui-monospace, 'SF Mono', monospace; color: #8B93A1; }
+  .repo a { color: inherit; }
+  h1 { margin: 10px 0; font-size: 24px; font-weight: 600; color: #F0F2F5; }
+  .state { display: flex; align-items: center; gap: 12px; font-size: 13px; color: #8B93A1; }
+  .open { padding: 3px 10px; border-radius: 12px; background: #1F6F3F; color: #fff; font-weight: 600; }
+  .add { color: #6BC685; } .del { color: #E8766E; }
+  .tabs { display: flex; gap: 24px; margin-top: 18px; }
+  .tabs a { padding-bottom: 12px; color: #8B93A1; text-decoration: none; }
+  .tabs a.on { color: #F0F2F5; font-weight: 600; border-bottom: 2px solid #E8A15B; padding-bottom: 10px; }
+  main { padding: 22px 30px 120px; display: grid; gap: 22px; }
+  .file { border: 1px solid #252932; border-radius: 8px; overflow: hidden; font: 13px/25px ui-monospace, 'SF Mono', monospace; }
+  .file > div:first-child { padding: 8px 14px; background: #161920; color: #C9CED6; border-bottom: 1px solid #252932; line-height: 1.5; }
+  .ln { display: flex; white-space: pre; }
+  .ln span:first-child { width: 52px; flex-shrink: 0; padding-right: 14px; text-align: right; color: #5C6370; }
+  .hunk { background: #151B2A; color: #7D8590; }
+  .plus { background: rgba(107, 198, 133, .16); }
+  .minus { background: rgba(232, 118, 110, .16); }
+  .comment { padding: 16px 18px; border: 1px solid #252932; border-radius: 8px; background: #13161C; line-height: 1.6; }
+  .comment b { color: #F0F2F5; }
+  textarea { width: 100%; min-height: 110px; padding: 12px; border-radius: 8px; border: 1px solid #2E333D; background: #0B0D11; color: #D4D7DD; font: 14px/1.5 -apple-system, system-ui, sans-serif; resize: vertical; }
+  button { justify-self: end; height: 34px; padding: 0 16px; border: 0; border-radius: 8px; background: #1F6F3F; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; }
+</style>
+</head>
+<body>
+<header>
+  <div class="repo"><a href="/site/search.html?q=common+browser+repository">common / browser</a> · #418</div>
+  <h1>Keep panes alive across workspace switches</h1>
+  <div class="state"><span class="open">Open</span>3 commits · <span class="add">+6</span> <span class="del">−2</span></div>
+  <nav class="tabs"><a href="/site/search.html?q=common+browser+418+conversation">Conversation</a><a href="/site/search.html?q=common+browser+418+commits">Commits</a><a class="on" href="/site/pr.html">Files changed</a></nav>
+</header>
+<main>
+  <div class="file">
+    <div>Sources/Panes/PaneController.swift</div>
+    <div class="ln hunk"><span></span><span>@@ -41,8 +41,11 @@ final class PaneController {</span></div>
+    <div class="ln"><span>41</span><span>   func workspaceWillHide() {</span></div>
+    <div class="ln minus"><span>42</span><span>-    webView.removeFromSuperview()</span></div>
+    <div class="ln plus"><span>42</span><span>+    // Keep the view alive so switching back is instant.</span></div>
+    <div class="ln plus"><span>43</span><span>+    savedOffset = currentScrollOffset()</span></div>
+    <div class="ln plus"><span>44</span><span>+    webView.isHidden = true</span></div>
+    <div class="ln"><span>45</span><span>   }</span></div>
+    <div class="ln"><span>46</span><span> </span></div>
+    <div class="ln"><span>47</span><span>   func workspaceDidShow() {</span></div>
+    <div class="ln minus"><span>48</span><span>-    reload()</span></div>
+    <div class="ln plus"><span>48</span><span>+    webView.isHidden = false</span></div>
+    <div class="ln plus"><span>49</span><span>+    restoreScrollOffset(savedOffset)</span></div>
+    <div class="ln"><span>50</span><span>   }</span></div>
+  </div>
+  <div class="comment"><b>Why:</b> removing the view from its superview released its layers, so every workspace switch repainted from scratch and lost the scroll position. Hiding it keeps the compositor layers and makes the switch a visibility flip.</div>
+  <div class="comment"><b>Look at:</b> memory with nine full workspaces. Sleeping panes still need a policy; see <a href="/site/search.html?q=common+browser+sleeping+panes" style="color:#7AA2F7">#402</a>.</div>
+  <label for="review" style="color:#8B93A1">Leave a review</label>
+  <textarea id="review" placeholder="Press i to start typing, esc to go back to NORMAL"></textarea>
+  <button type="button" onclick="this.textContent = 'Comment added'">Comment</button>
+</main>
+</body>
+</html>

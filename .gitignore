@@ -1,0 +1,21 @@
+# Rust
+/target/
+
+# Swift
+/apps/macos/.build/
+/apps/macos/.swiftpm/
+*.xcodeproj/xcuserdata/
+
+# Prototype
+/prototype/node_modules/
+/prototype/.svelte-kit/
+/prototype/build/
+
+# Worktrees live beside the checkout, but never inside it
+/.worktrees/
+
+# OS and editors
+.DS_Store
+.idea/
+.vscode/
+*.swp

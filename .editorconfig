@@ -1,0 +1,34 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# rustfmt defaults
+[*.rs]
+indent_style = space
+indent_size = 4
+max_line_length = 100
+
+# swift-format defaults
+[*.swift]
+indent_style = space
+indent_size = 2
+max_line_length = 100
+
+# POSIX shell scripts and hooks
+[{scripts/*,.githooks/*}]
+indent_style = tab
+
+[*.{toml,yml,yaml,json,md}]
+indent_style = space
+indent_size = 2
+
+# The prototype follows Svelte's defaults
+[prototype/**]
+indent_style = tab
+
+[*.md]
+trim_trailing_whitespace = false

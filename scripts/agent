@@ -1,0 +1,168 @@
+#!/bin/sh
+# The contribution workflow: one unit of work, one worktree, one branch, one pull request.
+#
+#   scripts/agent doctor                 check tools, auth and hooks; report every problem
+#   scripts/agent start <type>/<slug>    branch from the default branch into its own worktree
+#   scripts/agent check                  scripts/task check
+#   scripts/agent commit "<message>"     Conventional Commit, validated before committing
+#   scripts/agent pr [--draft]           check, push, open the pull request
+#   scripts/agent sync                   rebase onto the default branch
+#   scripts/agent done                   after merge: remove the worktree and the branch
+#   scripts/agent list                   worktrees, their branches and pull request state
+set -eu
+
+say() { printf '%s\n' "$*"; }
+fail() {
+	printf 'agent: %s\n' "$*" >&2
+	exit 1
+}
+
+root() {
+	# The primary checkout, even when called from inside a worktree.
+	common=$(git rev-parse --path-format=absolute --git-common-dir 2>/dev/null) || fail "not inside a git repository"
+	dirname "$common"
+}
+
+default_branch() {
+	ref=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null || true)
+	if [ -n "$ref" ]; then
+		printf '%s\n' "${ref#origin/}"
+	else
+		printf 'main\n'
+	fi
+}
+
+repo_name() { basename "$(root)"; }
+
+worktree_path() { printf '%s/../.worktrees/%s/%s\n' "$(root)" "$(repo_name)" "$1"; }
+
+current_branch() { git symbolic-ref --quiet --short HEAD || fail "detached HEAD; check out a branch"; }
+
+doctor() {
+	problems=0
+	problem() {
+		printf '  ✗ %s\n' "$*"
+		problems=$((problems + 1))
+	}
+	ok() { printf '  ✓ %s\n' "$*"; }
+
+	for tool in git gh cargo swift; do
+		if command -v "$tool" >/dev/null 2>&1; then ok "$tool found"; else problem "$tool is not installed"; fi
+	done
+	if gh auth status >/dev/null 2>&1; then ok "gh is logged in"; else problem "gh is not logged in: run gh auth login"; fi
+	top=$(root)
+	if [ "$(git -C "$top" config core.hooksPath || true)" != ".githooks" ]; then
+		git -C "$top" config core.hooksPath .githooks
+		ok "hooks path set to .githooks"
+	else
+		ok "hooks path is .githooks"
+	fi
+	if [ -z "$(git -C "$top" status --porcelain)" ]; then ok "primary checkout is clean"; else problem "primary checkout has uncommitted changes"; fi
+	branch=$(git -C "$top" symbolic-ref --quiet --short HEAD || true)
+	if [ "$branch" = "$(default_branch)" ]; then ok "primary checkout is on $branch"; else problem "primary checkout is on '$branch', expected $(default_branch)"; fi
+
+	[ "$problems" -eq 0 ] || fail "$problems problem(s) found"
+	say "All good."
+}
+
+start() {
+	[ $# -eq 1 ] || fail "usage: scripts/agent start <type>/<slug>"
+	branch=$1
+	printf '%s\n' "$branch" | grep -Eq '^(feat|fix|chore|docs|perf|refactor|test)/[a-z0-9][a-z0-9._-]*$' ||
+		fail "branch must look like feat/short-slug (types: feat fix chore docs perf refactor test)"
+	top=$(root)
+	path=$(worktree_path "$branch")
+	base=$(default_branch)
+	git -C "$top" show-ref --verify --quiet "refs/heads/$branch" && fail "branch $branch already exists"
+	[ -e "$path" ] && fail "worktree path already exists: $path"
+	say "Fetching origin…"
+	git -C "$top" fetch --quiet origin
+	say "Creating $branch from origin/$base at $path"
+	mkdir -p "$(dirname "$path")"
+	git -C "$top" worktree add --quiet -b "$branch" "$path" "origin/$base"
+	git -C "$path" branch --quiet --unset-upstream 2>/dev/null || true
+	say "Ready. Move there with:"
+	say "  cd $path"
+}
+
+check() { "$(root)/scripts/task" check; }
+
+commit() {
+	[ $# -eq 1 ] || fail 'usage: scripts/agent commit "<type>(scope): subject"'
+	[ "$(current_branch)" != "$(default_branch)" ] || fail "never commit to $(default_branch); run scripts/agent start first"
+	tmp=$(mktemp)
+	printf '%s\n' "$1" >"$tmp"
+	if ! "$(root)/.githooks/commit-msg" "$tmp"; then
+		rm -f "$tmp"
+		exit 1
+	fi
+	rm -f "$tmp"
+	git commit -m "$1"
+}
+
+pr() {
+	branch=$(current_branch)
+	[ "$branch" != "$(default_branch)" ] || fail "open pull requests from a work branch, not $(default_branch)"
+	check
+	say "Pushing $branch…"
+	git push --quiet -u origin "$branch"
+	if [ "${1:-}" = "--draft" ]; then
+		gh pr create --fill --base "$(default_branch)" --draft
+	else
+		gh pr create --fill --base "$(default_branch)"
+	fi
+}
+
+sync() {
+	base=$(default_branch)
+	say "Rebasing $(current_branch) onto origin/$base…"
+	git fetch --quiet origin
+	git rebase "origin/$base"
+}
+
+done_() {
+	branch=$(current_branch)
+	base=$(default_branch)
+	[ "$branch" != "$base" ] || fail "run this from the worktree of a merged branch"
+	state=$(gh pr view "$branch" --json state --jq .state 2>/dev/null || true)
+	[ "$state" = "MERGED" ] || fail "the pull request for $branch is not merged (state: ${state:-none})"
+	top=$(root)
+	path=$(git rev-parse --show-toplevel)
+	say "Removing worktree $path and branch $branch…"
+	git -C "$top" worktree remove "$path"
+	# Squash merges leave the branch unmerged in git's eyes, so delete it by force.
+	git -C "$top" branch --quiet -D "$branch"
+	git -C "$top" worktree prune
+	git -C "$top" fetch --quiet --prune origin
+	git -C "$top" merge --quiet --ff-only "origin/$base" 2>/dev/null || true
+	say "Done. Back to the primary checkout with:"
+	say "  cd $top"
+}
+
+list() {
+	git -C "$(root)" worktree list --porcelain | while read -r key value; do
+		case "$key" in
+		worktree) path=$value ;;
+		branch)
+			branch=${value#refs/heads/}
+			pr=$(gh pr view "$branch" --json number,state --jq '"#\(.number) \(.state)"' 2>/dev/null || printf 'no PR')
+			printf '%-40s %-18s %s\n' "$branch" "$pr" "$path"
+			;;
+		esac
+	done
+}
+
+[ $# -ge 1 ] || fail "usage: scripts/agent <doctor|start|check|commit|pr|sync|done|list>"
+command=$1
+shift
+case "$command" in
+doctor) doctor ;;
+start) start "$@" ;;
+check) check ;;
+commit) commit "$@" ;;
+pr) pr "$@" ;;
+sync) sync ;;
+done) done_ ;;
+list) list ;;
+*) fail "unknown command: $command" ;;
+esac

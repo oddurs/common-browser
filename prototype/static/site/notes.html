@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The physics of a good scroll</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap">
+<style>
+  :root { --paper: #F3EFE6; --ink: #1C1B18; --soft: #4B4840; --muted: #6A665C; --rule: #DDD6C8; --rust: #A04A28; }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: 'Newsreader', Georgia, serif; }
+  a { color: var(--rust); }
+  header { height: 64px; padding: 0 clamp(20px, 6vw, 96px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule); }
+  .mast { font-size: 22px; font-style: italic; font-weight: 500; color: var(--ink); text-decoration: none; }
+  nav { display: flex; gap: 28px; font: 13px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  nav a { color: #5F5C54; text-decoration: none; }
+  .hero { padding: 64px clamp(20px, 6vw, 96px) 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 520px); gap: 64px; align-items: start; }
+  .kicker { font: 600 12px -apple-system, system-ui, sans-serif; letter-spacing: .14em; text-transform: uppercase; color: var(--rust); }
+  h1 { margin: 18px 0 0; font-size: clamp(48px, 6.4vw, 92px); font-weight: 400; line-height: .98; letter-spacing: -.03em; text-wrap: balance; }
+  h1 em { color: var(--rust); }
+  .dek { margin: 22px 0 0; font-size: 24px; line-height: 1.4; color: var(--soft); max-width: 600px; }
+  .by { margin-top: 18px; font: 13px -apple-system, system-ui, sans-serif; color: var(--muted); }
+  figure { margin: 0; display: grid; gap: 12px; }
+  figure svg { width: 100%; height: auto; background: #EAE3D5; border-radius: 6px; }
+  figcaption { font: 13px/1.5 -apple-system, system-ui, sans-serif; color: var(--muted); }
+  article { max-width: 680px; margin: 56px auto 160px; padding: 0 20px; font-size: 20px; line-height: 1.65; }
+  article h2 { margin: 56px 0 12px; font-size: 32px; font-weight: 500; letter-spacing: -.01em; }
+  article p { margin: 0 0 22px; }
+  .drop::first-letter { float: left; font-size: 84px; line-height: .8; padding: 8px 10px 0 0; color: var(--rust); }
+  blockquote { margin: 36px 0; padding-left: 20px; border-left: 2px solid var(--rust); font-style: italic; font-size: 24px; color: var(--soft); }
+  .related { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--rule); font: 15px -apple-system, system-ui, sans-serif; display: grid; gap: 10px; }
+  @media (max-width: 900px) { .hero { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<header>
+  <a class="mast" href="/site/notes.html">Field Notes</a>
+  <nav><a href="/site/forum.html">Forum</a><a href="/site/tessera.html">Docs</a><a href="/site/search.html?q=field+notes+archive">Archive</a></nav>
+</header>
+<div class="hero">
+  <div>
+    <div class="kicker">Interfaces — 12 min read</div>
+    <h1>The physics of a <em>good</em> scroll</h1>
+    <p class="dek">Why momentum, friction and a rubber-band edge decide whether a page feels alive or merely works.</p>
+    <div class="by">Field Notes staff · September 2026</div>
+  </div>
+  <figure>
+    <svg viewBox="0 0 560 440" fill="none" role="img" aria-label="Five velocity curves decaying smoothly to rest">
+      <path d="M120 20V380M200 20V380M280 20V380M360 20V380M440 20V380M520 20V380M40 100H540M40 180H540M40 260H540M40 340H540" stroke="#DDD3C1"/>
+      <path d="M40 20V380H540" stroke="#B9AF9C"/>
+      <path d="M40 260C184 350 392 379 520 380" stroke="#E6CDB9" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M40 210C166 338 348 379 520 380" stroke="#DDB295" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M40 160C148 325 304 378 520 380" stroke="#D2906B" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M40 60C112 300 216 376 520 380" stroke="#C4623A" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M40 110C130 312 260 377 520 380" stroke="#1C1B18" stroke-width="3.5" stroke-linecap="round"/>
+      <circle cx="40" cy="110" r="7" fill="#1C1B18"/>
+      <circle cx="520" cy="380" r="7" fill="#F3EFE6" stroke="#1C1B18" stroke-width="3"/>
+      <text x="50" y="16" fill="#6A665C" font-family="-apple-system, sans-serif" font-size="12">velocity</text>
+      <text x="508" y="402" fill="#6A665C" font-family="-apple-system, sans-serif" font-size="12">time</text>
+    </svg>
+    <figcaption>Velocity over time for five flings. Each one sheds its speed smoothly and comes to rest.</figcaption>
+  </figure>
+</div>
+<article>
+  <p class="drop">Flick a page and let go. What happens next is the whole argument. The content should keep travelling at the speed your finger gave it, shed that speed smoothly, and come to rest where you expected — not a pixel early, not a frame late.</p>
+  <p>Most of that feeling comes down to three things: how fast velocity decays, how the edge resists when you run out of page, and how quickly the page answers the first touch. Get the first wrong and scrolling feels icy or sticky. Get the second wrong and the page hits a wall. Get the third wrong and nothing else matters.</p>
+
+  <h2>Decay</h2>
+  <p>Decay is usually modelled as exponential: each moment keeps a fixed fraction of the previous moment's velocity. The fraction sets the personality. Too low and the page feels like it is dragging through sand; too high and it feels like ice.</p>
+  <p>The fraction has to be tied to time, not to frames. A page that keeps a fixed share of its speed per frame coasts further on a 120 Hz display than on a 60 Hz one, because it gets twice as many frames to keep that share. People notice the difference when they move between screens, even if they cannot name it.</p>
+  <blockquote>A good fling ends where your eye already went.</blockquote>
+  <p>There is also the matter of where the fling comes from. The release velocity should be measured over the last few touch samples, not the last one, or a slight hesitation at lift-off throws the whole page. Smoothing too much, though, makes the page feel like it is ignoring you.</p>
+
+  <h2>The edge</h2>
+  <p>When content runs out, the page should keep moving a little, against a spring that grows stiffer the further it travels, then settle back. That spring is what tells your hand the page has ended. A hard stop tells your hand something broke.</p>
+  <p>The spring needs two properties. It should resist progressively, so a gentle overscroll moves almost as far as you pushed and a hard one moves much less. And it should settle without bouncing, or the page looks nervous.</p>
+
+  <h2>The first touch</h2>
+  <p>None of this matters if the page is late to answer. The first movement after your finger lands is where people judge responsiveness, and it happens before any physics runs. A page that waits for its main thread before it moves feels heavy no matter how good its decay curve is.</p>
+  <p>That is why the best scrolling happens off the main thread entirely: the compositor moves layers that are already painted, and the page's own code only hears about it afterwards.</p>
+
+  <h2>Keyboards</h2>
+  <p>Keyboard scrolling is its own problem. A key has no velocity, so there is nothing to decay. The usual answer is a short glide toward a target that moves each time the key repeats, which keeps holding a key smooth instead of stepping.</p>
+  <p>What a keyboard glide must never do is fight the trackpad. The moment a gesture arrives, the glide should stop where it is and hand over.</p>
+
+  <h2>What to copy</h2>
+  <p>Most platforms already get this right in their native scroll views. The lesson for anyone building on top of them is simple: leave it alone. Every custom scroll implementation on the web is an attempt to rebuild something the platform already does better.</p>
+
+  <div class="related">
+    <strong>Related</strong>
+    <a href="/site/forum.html">Discussion on the Forum</a>
+    <a href="/site/tessera.html">Layout primitives in tessera</a>
+    <a href="/site/pr.html">Pull request #418: keep panes alive across workspace switches</a>
+  </div>
+</article>
+</body>
+</html>

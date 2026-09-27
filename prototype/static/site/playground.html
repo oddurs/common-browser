@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>tessera playground</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #17181A; font: 15px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  header { height: 52px; padding: 0 24px; display: flex; align-items: center; gap: 10px; border-bottom: 1px solid #ECECEA; font-weight: 600; }
+  header i { width: 7px; height: 7px; border-radius: 4px; background: #2F9E5B; }
+  header span { font-weight: 400; font-size: 12px; color: #5E6068; }
+  main { display: grid; grid-template-columns: minmax(260px, 320px) minmax(0, 1fr); gap: 28px; padding: 28px 24px 80px; }
+  form { display: flex; flex-direction: column; gap: 16px; }
+  label { display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600; }
+  input, select, textarea { height: 40px; padding: 0 12px; border: 1px solid #D6D6D2; border-radius: 8px; font: inherit; font-weight: 400; background: #fff; }
+  textarea { height: 90px; padding: 10px 12px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: #2D5BD1; box-shadow: 0 0 0 3px rgba(45, 91, 209, .25); }
+  button { height: 40px; border: 0; border-radius: 8px; background: #17181A; color: #fff; font-weight: 600; font-size: 14px; cursor: pointer; }
+  .board { display: grid; gap: var(--gap, 24px); grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); align-content: start; }
+  .card { height: 140px; border-radius: 10px; background: #F1F1EE; display: grid; place-items: center; color: #8A8C93; font: 13px ui-monospace, 'SF Mono', monospace; }
+  .status { font-size: 13px; color: #2F9E5B; min-height: 18px; }
+</style>
+</head>
+<body>
+<header><i></i>tessera playground <span>dev server</span></header>
+<main>
+  <form id="board-form">
+    <label>Board name <input id="name" value="Sprint review"></label>
+    <label>Columns <input id="cols" type="number" min="1" max="6" value="3"></label>
+    <label>Gap <select id="gap"><option>12</option><option selected>24</option><option>32</option></select></label>
+    <label>Notes <textarea id="notes" placeholder="Anything worth remembering"></textarea></label>
+    <button type="submit">Create board</button>
+    <div class="status" id="status" role="status"></div>
+  </form>
+  <section class="board" id="board" aria-label="Preview"></section>
+</main>
+<script>
+  const board = document.getElementById('board');
+  const render = () => {
+    const cols = Math.max(1, Math.min(6, Number(document.getElementById('cols').value) || 3));
+    board.style.setProperty('--cols', cols);
+    board.style.setProperty('--gap', document.getElementById('gap').value + 'px');
+    board.innerHTML = '';
+    for (let i = 1; i <= cols * 2; i++) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = 'card ' + i;
+      board.append(card);
+    }
+  };
+  document.getElementById('board-form').addEventListener('input', render);
+  document.getElementById('board-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    document.getElementById('status').textContent = 'Created “' + document.getElementById('name').value + '”.';
+  });
+  render();
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.icns binary
+Cargo.lock linguist-generated=true
+prototype/package-lock.json linguist-generated=true
+prototype/** linguist-documentation=true

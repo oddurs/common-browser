@@ -1,0 +1,71 @@
+#!/bin/sh
+# The one interface to the toolchains. CI, the git hooks and scripts/agent call only this, so
+# adding a language or tool means changing this file and nothing else.
+#
+# prototype/ is a design reference with its own npm scripts; it is not part of these checks.
+set -eu
+
+cd "$(dirname "$0")/.."
+
+SWIFT_PACKAGE=apps/macos
+SWIFT_SOURCES="$SWIFT_PACKAGE/Package.swift $SWIFT_PACKAGE/Sources $SWIFT_PACKAGE/Tests"
+
+fmt() {
+	cargo fmt --all
+	# shellcheck disable=SC2086 # word splitting is the point: several paths
+	swift format --in-place --recursive $SWIFT_SOURCES
+}
+
+fmt_check() {
+	cargo fmt --all --check
+	# shellcheck disable=SC2086
+	swift format lint --strict --recursive $SWIFT_SOURCES
+}
+
+lint() {
+	cargo clippy --workspace --all-targets --locked -- -D warnings
+}
+
+test_all() {
+	cargo test --workspace --locked
+	# Without Xcode, SwiftPM neither finds the Testing framework nor its interop library, so
+	# point the compiler and the test runner at the copies Command Line Tools ships.
+	clt=/Library/Developer/CommandLineTools
+	frameworks=$clt/Library/Developer/Frameworks
+	if [ "$(xcode-select -p 2>/dev/null)" = "$clt" ] && [ -d "$frameworks/Testing.framework" ]; then
+		swift test --package-path "$SWIFT_PACKAGE" \
+			-Xswiftc -F -Xswiftc "$frameworks" \
+			-Xlinker -F -Xlinker "$frameworks" \
+			-Xlinker -rpath -Xlinker "$frameworks" \
+			-Xlinker -rpath -Xlinker "$clt/Library/Developer/usr/lib"
+	else
+		swift test --package-path "$SWIFT_PACKAGE"
+	fi
+}
+
+build() {
+	cargo build --workspace --locked
+	swift build --package-path "$SWIFT_PACKAGE" -Xswiftc -warnings-as-errors
+}
+
+usage() {
+	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check>" >&2
+	exit 2
+}
+
+[ $# -eq 1 ] || usage
+
+case "$1" in
+fmt) fmt ;;
+fmt:check) fmt_check ;;
+lint) lint ;;
+test) test_all ;;
+build) build ;;
+check)
+	fmt_check
+	lint
+	test_all
+	build
+	;;
+*) usage ;;
+esac

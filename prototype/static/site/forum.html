@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Forum — front</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; background: #fff; color: #15161A; font: 15px -apple-system, BlinkMacSystemFont, system-ui, sans-serif; }
+  header { height: 56px; padding: 0 clamp(20px, 8vw, 120px); display: flex; align-items: center; gap: 28px; border-bottom: 1px solid #ECECEA; }
+  header strong { font-size: 17px; letter-spacing: -.01em; }
+  nav { display: flex; gap: 20px; color: #5E6068; font-size: 14px; }
+  nav a { color: inherit; text-decoration: none; }
+  nav a.on { color: #15161A; font-weight: 600; }
+  ol { list-style: none; margin: 0; padding: 12px clamp(20px, 8vw, 120px) 80px; }
+  li { display: flex; gap: 20px; align-items: center; min-height: 70px; border-bottom: 1px solid #F2F2F0; }
+  .rank { width: 28px; flex-shrink: 0; font: 13px ui-monospace, 'SF Mono', monospace; color: #8A8C93; }
+  .item { display: flex; flex-direction: column; gap: 4px; padding: 10px 0; }
+  .item a { color: #15161A; font-size: 17px; font-weight: 500; text-decoration: none; }
+  .item a:hover { color: #2D5BD1; }
+  .meta { font-size: 13px; color: #5E6068; }
+  .meta a { color: inherit; }
+</style>
+</head>
+<body>
+<header>
+  <strong>Forum</strong>
+  <nav><a class="on" href="/site/forum.html">Front</a><a href="/site/search.html?q=new+on+forum">New</a><a href="/site/search.html?q=ask+forum">Ask</a><a href="/site/search.html?q=show+forum">Show</a></nav>
+</header>
+<ol>
+  <li><span class="rank">1</span><div class="item"><a href="/site/notes.html">The physics of a good scroll</a><span class="meta">notes.example.org · <a href="/site/search.html?q=scroll+physics+comments">58 comments</a></span></div></li>
+  <li><span class="rank">2</span><div class="item"><a href="/site/search.html?q=frame+pacing">Why frame pacing matters more than frame rate</a><span class="meta">render.example.com · <a href="/site/search.html?q=frame+pacing+comments">112 comments</a></span></div></li>
+  <li><span class="rank">3</span><div class="item"><a href="/site/tessera.html">Layout primitives: stacks, grids and nothing else</a><span class="meta">tessera.example.dev · <a href="/site/search.html?q=tessera+comments">41 comments</a></span></div></li>
+  <li><span class="rank">4</span><div class="item"><a href="/site/pr.html">Show: keeping browser panes alive across workspace switches</a><span class="meta">code.example.dev · <a href="/site/search.html?q=common+browser+418">23 comments</a></span></div></li>
+  <li><span class="rank">5</span><div class="item"><a href="/site/search.html?q=smallest+useful+tool">Ask: what is your smallest useful tool?</a><span class="meta">forum.example.net · <a href="/site/search.html?q=smallest+tool+comments">204 comments</a></span></div></li>
+  <li><span class="rank">6</span><div class="item"><a href="/site/search.html?q=input+latency+camera">Measuring input latency with a phone camera</a><span class="meta">lab.example.com · <a href="/site/search.html?q=latency+comments">36 comments</a></span></div></li>
+  <li><span class="rank">7</span><div class="item"><a href="/site/search.html?q=font+hinting">A field guide to font hinting</a><span class="meta">type.example.org · <a href="/site/search.html?q=hinting+comments">19 comments</a></span></div></li>
+  <li><span class="rank">8</span><div class="item"><a href="/site/search.html?q=offline+first">Offline-first, ten years later</a><span class="meta">sync.example.dev · <a href="/site/search.html?q=offline+comments">77 comments</a></span></div></li>
+  <li><span class="rank">9</span><div class="item"><a href="/site/playground.html">Show: a playground for grid layouts</a><span class="meta">localhost:5173 · <a href="/site/search.html?q=playground+comments">12 comments</a></span></div></li>
+  <li><span class="rank">10</span><div class="item"><a href="/site/search.html?q=plain+text+accounting">Plain text accounting in practice</a><span class="meta">ledger.example.com · <a href="/site/search.html?q=ledger+comments">64 comments</a></span></div></li>
+  <li><span class="rank">11</span><div class="item"><a href="/site/search.html?q=boring+databases">The case for boring databases</a><span class="meta">db.example.net · <a href="/site/search.html?q=databases+comments">88 comments</a></span></div></li>
+  <li><span class="rank">12</span><div class="item"><a href="/site/search.html?q=rubber+band+springs">Rubber-band scrolling, explained with springs</a><span class="meta">notes.example.org · <a href="/site/search.html?q=springs+comments">31 comments</a></span></div></li>
+  <li><span class="rank">13</span><div class="item"><a href="/site/search.html?q=tiling+window+managers">What tiling window managers get right</a><span class="meta">wm.example.org · <a href="/site/search.html?q=tiling+comments">95 comments</a></span></div></li>
+  <li><span class="rank">14</span><div class="item"><a href="/site/search.html?q=toml+vs+yaml">TOML, YAML and the config files we deserve</a><span class="meta">blog.example.net · <a href="/site/search.html?q=toml+comments">140 comments</a></span></div></li>
+  <li><span class="rank">15</span><div class="item"><a href="/site/search.html?q=vim+keys+everywhere">Vim keys everywhere, five years on</a><span class="meta">keys.example.com · <a href="/site/search.html?q=vim+comments">73 comments</a></span></div></li>
+</ol>
+</body>
+</html>
