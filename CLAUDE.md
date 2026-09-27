@@ -15,6 +15,8 @@ Rust core that Linux and Windows shells will share.
   testable library; `CommonBrowser` is the thin executable. `apps/macos/Generated/` holds the
   generated bindings and static library: `scripts/task` writes it, git ignores it, never edit it.
   Run `scripts/task build` before `swift build` or `swift run`.
+- `docs/design/`: the approved design spec. Build to it; a change to the design changes this spec
+  in the same pull request.
 - `prototype/`: a SvelteKit design prototype. Reference only: not in `scripts/task`, not shipped.
   Change it only when asked.
 

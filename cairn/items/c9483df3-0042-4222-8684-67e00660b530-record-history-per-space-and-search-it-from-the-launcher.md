@@ -28,4 +28,4 @@ other Spaces' history.
 
 - [ ] Typing part of a title visited in this Space finds it within 16 ms on a database of 100,000 visits (benchmark test).
 - [ ] Private Spaces write no rows, verified by test.
-- [ ] Visits older than `history.keep_days` (default 365) are pruned at launch.
+- [ ] Visits older than `history.retain` (default a year, as in `docs/design/config.md`) are pruned at launch.
