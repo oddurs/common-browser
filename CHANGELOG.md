@@ -16,3 +16,5 @@ All notable changes to this project are documented here. The format follows
   the window at a time, and hidden pages keep their state.
 - The window remembers its size and position between launches, and one saved on a display that is
   gone reopens on a screen that is there.
+- JavaScript `alert`, `confirm` and `prompt` appear as sheets on the window, and file inputs open
+  a file panel. From a page's second dialog on, the sheet offers to block further dialogs from it.
