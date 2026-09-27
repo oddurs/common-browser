@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`####······` 35% · 8 of 23 done · due 2026-11-13
+`####······` 39% · 9 of 23 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -16,7 +16,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`2e08777c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/2e08777c-7da0-4f69-9413-c68dec13af1e-find-in-page.md) Find in page <sup>feature · p1 · web</sup>
 - [ ] [`4cc437aa`](https://github.com/oddurs/common-browser/blob/main/cairn/items/4cc437aa-c4a6-463b-8620-1ca0a92411dc-javascript-dialogs-and-file-pickers.md) JavaScript dialogs and file pickers <sup>feature · p0 · web</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
-- [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
 - [ ] [`7f4481e9`](https://github.com/oddurs/common-browser/blob/main/cairn/items/7f4481e9-3a6a-4a63-87e3-3b514f7c84cb-downloads.md) Downloads <sup>feature · p1 · web</sup>
 - [ ] [`88f87ade`](https://github.com/oddurs/common-browser/blob/main/cairn/items/88f87ade-d2e6-4d5b-89e0-a08c24a69cc0-launcher-go-to-an-address-search-or-switch-page.md) Launcher: go to an address, search, or switch page <sup>feature · p0 · chrome</sup>
 - [ ] [`a1afb662`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a1afb662-be9a-407b-ac98-05957b2b4e8a-element-full-screen-for-video.md) Element full screen for video <sup>feature · p1 · web</sup>
@@ -27,7 +26,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 
 ### in progress
 
-- [ ] [`a5325703`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a5325703-e633-467d-9801-5a94139c7e9e-smoke-test-load-a-local-page-in-a-web-view-under-swift-test.md) Smoke test: load a local page in a web view under swift test <sup>chore · p1 · macos</sup>
+- [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
 
 ### done
 
@@ -35,6 +34,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [x] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
 - [x] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
+- [x] [`a5325703`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a5325703-e633-467d-9801-5a94139c7e9e-smoke-test-load-a-local-page-in-a-web-view-under-swift-test.md) Smoke test: load a local page in a web view under swift test <sup>chore · p1 · macos</sup>
 - [x] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
 - [x] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
 - [x] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
