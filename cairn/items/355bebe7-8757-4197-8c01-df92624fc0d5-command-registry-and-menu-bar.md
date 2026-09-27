@@ -2,10 +2,11 @@
 id: 355bebe7-8757-4197-8c01-df92624fc0d5
 title: Command registry and menu bar
 type: feature
-status: planned
+status: done
 milestone: v0.1
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: input
@@ -24,6 +25,6 @@ keys directly.
 
 ## Acceptance criteria
 
-- [ ] Adding one entry to the table adds the menu item and its shortcut.
-- [ ] A test fails if two commands share a shortcut.
-- [ ] The standard shortcuts that exist in v0.1 (`⌘T`, `⌘W`, `⌘L`, `⌘[`, `⌘]`, `⌘R`, `⇧⌘C`, `⌘F`, `⌘,`, `⌃⌘F`) appear in the menus with their glyphs.
+- [x] Adding one entry to the table adds the menu item and its shortcut.
+- [x] A test fails if two commands share a shortcut.
+- [x] The standard shortcuts that exist in v0.1 (`⌘T`, `⌘W`, `⌘L`, `⌘[`, `⌘]`, `⌘R`, `⇧⌘C`, `⌘F`, `⌘,`, `⌃⌘F`) appear in the menus with their glyphs.
