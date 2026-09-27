@@ -18,3 +18,5 @@ All notable changes to this project are documented here. The format follows
   gone reopens on a screen that is there.
 - JavaScript `alert`, `confirm` and `prompt` appear as sheets on the window, and file inputs open
   a file panel. From a page's second dialog on, the sheet offers to block further dialogs from it.
+- Find in page: ⌘F opens a find field at the top of the window that highlights every match and
+  shows "3 of 12". ⌘G and ⇧⌘G (or Return and Shift-Return) move between matches, and Esc closes it.
