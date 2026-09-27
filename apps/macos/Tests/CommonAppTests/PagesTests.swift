@@ -47,33 +47,3 @@ import WebKit
     "document.getElementById('field').value + ' ' + window.scrollY")
   #expect(state as? String == "kept 800")
 }
-
-/// Loads `html` and waits for that navigation to finish, ignoring any load already under way.
-@MainActor
-private func load(_ webView: WKWebView, html: String) async throws {
-  let waiter = NavigationWaiter()
-  webView.navigationDelegate = waiter
-  try await withCheckedThrowingContinuation { continuation in
-    waiter.continuation = continuation
-    waiter.navigation = webView.loadHTMLString(html, baseURL: nil)
-  }
-  webView.navigationDelegate = nil
-}
-
-@MainActor
-private final class NavigationWaiter: NSObject, WKNavigationDelegate {
-  var continuation: CheckedContinuation<Void, Error>?
-  var navigation: WKNavigation?
-
-  func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-    guard navigation === self.navigation else { return }
-    continuation?.resume()
-    continuation = nil
-  }
-
-  func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-    guard navigation === self.navigation else { return }
-    continuation?.resume(throwing: error)
-    continuation = nil
-  }
-}

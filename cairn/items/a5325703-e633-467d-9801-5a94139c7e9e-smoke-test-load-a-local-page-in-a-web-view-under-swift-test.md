@@ -2,10 +2,10 @@
 id: a5325703-e633-467d-9801-5a94139c7e9e
 title: 'Smoke test: load a local page in a web view under swift test'
 type: chore
-status: planned
+status: doing
 milestone: v0.1
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
 priority: p1
 effort: m
 area: macos
@@ -24,4 +24,4 @@ that later web-facing items add cases to.
 ## Acceptance criteria
 
 - [ ] The test runs under `scripts/task test` locally without Xcode and on CI, headless.
-- [ ] It fails if the web view's configuration regresses (for example, if JavaScript is disabled).
+- [x] It fails if the web view's configuration regresses (for example, if JavaScript is disabled).

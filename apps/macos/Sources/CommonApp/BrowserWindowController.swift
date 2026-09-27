@@ -11,6 +11,7 @@ import WebKit
 public final class BrowserWindowController: NSWindowController, BrowserActions {
   private let pages = PageList()
   private var webViews: [UInt64: WKWebView] = [:]
+  private let pageDelegate = PageDelegate()
   private let container = NSView()
 
   /// The page on screen.
@@ -44,7 +45,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   /// Opens `url` in a new page at the end and shows it.
   @discardableResult
   public func openPage(_ url: URL) -> WKWebView {
-    let webView = WKWebView()
+    let webView = makePageWebView(delegate: pageDelegate)
     webViews[pages.open()] = webView
     webView.load(URLRequest(url: url))
     show(pages.current())
