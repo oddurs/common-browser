@@ -6,6 +6,7 @@ status: backlog
 milestone: v0.2
 depends_on:
 - 5e5657e6-273a-4ba3-94af-45ea0606b5dd
+- 74812773-d295-470c-bf49-ef88f4d5c886
 created: 2026-09-26
 updated: 2026-09-26
 priority: p1

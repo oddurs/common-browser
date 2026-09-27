@@ -20,8 +20,16 @@ Gatekeeper warnings are a poor first impression and teach people to click throug
 
 ## Proposal
 
-Apply the spike's answer: sign with the Developer ID certificate from CI secrets, notarize with
-`notarytool`, and staple the ticket.
+Apply the answer of `363132d3`. In `release.yml`, in a `release` environment limited to `v*` tags:
+
+- import the Developer ID Application `.p12` into a temporary keychain;
+- sign every executable with `codesign --options runtime --timestamp`;
+- zip the app with `ditto -c -k --keepParent`;
+- run `notarytool submit --wait` with a Team App Store Connect API key;
+- run `stapler staple` on the `.app`, then zip it again for the release.
+
+The owner must first enroll in the Apple Developer Program (99 USD a year) and create the
+certificate and the key.
 
 ## Acceptance criteria
 
