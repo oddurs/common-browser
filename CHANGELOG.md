@@ -20,3 +20,6 @@ All notable changes to this project are documented here. The format follows
   a file panel. From a page's second dialog on, the sheet offers to block further dialogs from it.
 - Find in page: ⌘F opens a find field at the top of the window that highlights every match and
   shows "3 of 12". ⌘G and ⇧⌘G (or Return and Shift-Return) move between matches, and Esc closes it.
+- Downloads: files a page cannot show, attachments and `<a download>` links save to `~/Downloads`
+  without overwriting (`name 2.ext`), quarantined for Gatekeeper, with a notice while they run.
+  A failed download leaves no partial file and says why. ⌥⌘L shows the latest one in Finder.

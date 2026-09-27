@@ -10,6 +10,13 @@ pub fn core_version() -> String {
     common_core::VERSION.to_string()
 }
 
+/// The name to save a download under in a directory holding `taken`: `name.ext`, else
+/// `name 2.ext`, and so on.
+#[uniffi::export]
+pub fn unique_download_name(suggested: String, taken: Vec<String>) -> String {
+    common_core::downloads::unique_file_name(&suggested, taken.iter().map(String::as_str))
+}
+
 /// A window's pages, shared with Swift as a reference type. UniFFI objects must be `Sync`, hence
 /// the mutex; Swift calls these from the main thread only, so it is never contended.
 #[derive(uniffi::Object, Default)]

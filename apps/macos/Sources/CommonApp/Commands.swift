@@ -9,6 +9,7 @@ import AppKit
   @objc optional func newPage(_ sender: Any?)
   @objc optional func openLocation(_ sender: Any?)
   @objc optional func closePage(_ sender: Any?)
+  @objc optional func showLatestDownload(_ sender: Any?)
   @objc optional func copyAddress(_ sender: Any?)
   @objc optional func showFind(_ sender: Any?)
   @objc optional func findNextMatch(_ sender: Any?)
@@ -132,6 +133,10 @@ extension Command {
     Command(
       "close-page", "Close Page", in: .file, group: 1, shortcut: Shortcut("w"),
       action: #selector(BrowserActions.closePage(_:))),
+    Command(
+      "show-latest-download", "Show Latest Download", in: .file, group: 2,
+      shortcut: Shortcut("l", [.option, .command]),
+      action: #selector(BrowserActions.showLatestDownload(_:))),
 
     // The standard editing actions: without them text fields and pages lose copy and paste.
     Command("undo", "Undo", in: .edit, shortcut: Shortcut("z"), action: Selector(("undo:"))),
