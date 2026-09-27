@@ -72,7 +72,7 @@ Pages live in Spaces. Each Space has its own logins, tint and history, and every
 
 ## v0.3 — Tiles and the keyboard
 
-`··········` 0% · 0 of 10 done · due 2027-03-19
+`··········` 0% · 0 of 11 done · due 2027-03-19
 
 Pages tile side by side within a Space, and everything can be driven from the keyboard, including
 
@@ -87,6 +87,7 @@ Pages tile side by side within a Space, and everything can be driven from the ke
 - [ ] [`9a298aac`](https://github.com/oddurs/common-browser/blob/main/cairn/items/9a298aac-730b-445d-8bb7-11726b35e364-fork-a-space.md) Fork a Space <sup>feature · p2 · spaces</sup>
 - [ ] [`b79b0a13`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b79b0a13-e8a3-495c-8f66-f7fb5d1039f7-tile-pages-in-the-macos-shell.md) Tile pages in the macOS shell (⌘\) <sup>feature · p0 · macos</sup>
 - [ ] [`d3d5b112`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d3d5b112-7500-4386-a83a-066634647e1d-modal-input-engine-in-core-keys-mode-vim.md) Modal input engine in core (keys.mode = "vim") <sup>feature · p1 · input</sup>
+- [ ] [`d7873924`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d7873924-2d7d-4578-aead-a534156be020-snapshots-put-a-space-back-as-it-was.md) Snapshots: put a Space back as it was <sup>feature · p2 · history</sup>
 - [ ] [`fc59ca57`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fc59ca57-db55-4e66-bd55-a1ae9214ba2b-guide-keyboard-tiles-and-vim-mode.md) Guide: keyboard, tiles and vim mode <sup>docs · p1 · docs</sup>
 
 ## v0.4 — Daily driver

@@ -37,6 +37,11 @@ swift run --package-path apps/macos CommonBrowser https://example.org
 cargo run -p common-cli -- --version
 ```
 
+## Design
+
+[docs/design](docs/design/README.md) is the approved spec: the interface, the keymap, Spaces and
+history, the config keys, and the architecture.
+
 ## Roadmap
 
 [ROADMAP.md](ROADMAP.md) lists every milestone from v0.1 to v1.0 and the work in each. It is
