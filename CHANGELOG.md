@@ -14,3 +14,5 @@ All notable changes to this project are documented here. The format follows
   `FILE:LINE:COL: MESSAGE` and exits 1 if there are any.
 - Pages: ⌘T opens one, ⌘W closes the one on screen, ⌥⌘← and ⌥⌘→ move between them. One page fills
   the window at a time, and hidden pages keep their state.
+- The window remembers its size and position between launches, and one saved on a display that is
+  gone reopens on a screen that is there.

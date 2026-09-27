@@ -21,6 +21,9 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
 
   public var pageCount: Int { webViews.count }
 
+  /// The key under which AppKit saves the window's frame between launches.
+  static let frameName = "BrowserWindow"
+
   public init(url: URL) {
     // The page owns the window: no toolbar, a transparent title bar, content under it.
     let window = NSWindow(
@@ -32,7 +35,15 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
     window.titlebarAppearsTransparent = true
     window.titleVisibility = .hidden
     window.contentView = container
-    window.center()
+    window.collectionBehavior.insert(.fullScreenPrimary)
+    if !window.setFrameUsingName(Self.frameName) {
+      window.center()
+    }
+    window.setFrame(
+      fitted(window.frame, into: NSScreen.screens.map(\.visibleFrame)), display: false)
+    // AppKit refuses a name another window already holds, so only the first window's frame is
+    // remembered; v0.1 has one window.
+    window.setFrameAutosaveName(Self.frameName)
     super.init(window: window)
     openPage(url)
   }
