@@ -5,7 +5,8 @@
 #   scripts/agent start <type>/<slug>    branch from the default branch into its own worktree
 #   scripts/agent check                  scripts/task check
 #   scripts/agent commit "<message>"     Conventional Commit, validated before committing
-#   scripts/agent pr [--draft]           check, push, open the pull request
+#   scripts/agent pr --body-file FILE [--draft]
+#                                        push (the pre-push hook checks), open the pull request
 #   scripts/agent sync                   rebase onto the default branch
 #   scripts/agent done                   after merge: remove the worktree and the branch
 #   scripts/agent list                   worktrees, their branches and pull request state
@@ -102,15 +103,35 @@ commit() {
 
 pr() {
 	branch=$(current_branch)
-	[ "$branch" != "$(default_branch)" ] || fail "open pull requests from a work branch, not $(default_branch)"
-	check
-	say "Pushing $branch…"
+	base=$(default_branch)
+	[ "$branch" != "$base" ] || fail "open pull requests from a work branch, not $base"
+	body='' draft=''
+	while [ $# -gt 0 ]; do
+		case "$1" in
+		--body-file)
+			[ $# -ge 2 ] || fail "--body-file needs a file"
+			body=$2
+			shift
+			;;
+		--draft) draft=--draft ;;
+		*) fail "usage: scripts/agent pr --body-file FILE [--draft]" ;;
+		esac
+		shift
+	done
+	# A reviewer needs the problem, the approach and the weak spots; a commit subject is not that.
+	template="$(root)/.github/PULL_REQUEST_TEMPLATE.md"
+	[ -n "$body" ] || fail "describe the change: scripts/agent pr --body-file FILE, starting from .github/PULL_REQUEST_TEMPLATE.md"
+	[ -s "$body" ] || fail "$body is missing or empty"
+	! cmp -s "$body" "$template" || fail "$body is the unfilled template; fill in each section"
+	"$(root)/scripts/no-attribution" "$body"
+	# The pre-push hook runs scripts/task check, so running it here as well would double the wait.
+	[ "$(git config core.hooksPath || true)" = ".githooks" ] || fail "git hooks are off, so nothing would check this push; run scripts/setup"
+	title=$(git log --reverse --format=%s "origin/$base..HEAD" | head -n 1)
+	[ -n "$title" ] || fail "no commits on $branch beyond origin/$base"
+	say "Pushing $branch; the pre-push hook runs scripts/task check…"
 	git push --quiet -u origin "$branch"
-	if [ "${1:-}" = "--draft" ]; then
-		gh pr create --fill --base "$(default_branch)" --draft
-	else
-		gh pr create --fill --base "$(default_branch)"
-	fi
+	# shellcheck disable=SC2086 # $draft is empty or one flag
+	gh pr create --base "$base" --title "$title" --body-file "$body" $draft
 }
 
 sync() {

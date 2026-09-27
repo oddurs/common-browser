@@ -1,0 +1,13 @@
+#!/bin/sh
+# Exits 1 if FILE credits an AI tool or assistant. The commit-msg hook and `scripts/agent pr` share
+# this, so commit messages and pull request descriptions are held to the same rule.
+set -eu
+
+[ $# -eq 1 ] || {
+	echo "usage: scripts/no-attribution FILE" >&2
+	exit 2
+}
+if grep -v '^#' "$1" | grep -Eiq 'co-authored-by:.*(claude|anthropic|copilot|chatgpt|openai|gemini|cursor)|noreply@anthropic\.com|generated (with|by) .*(claude|chatgpt|copilot|gemini|an? ai)|🤖'; then
+	echo "no-attribution: remove the AI or assistant attribution from $1" >&2
+	exit 1
+fi

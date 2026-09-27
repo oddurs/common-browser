@@ -1,0 +1,81 @@
+#!/bin/sh
+# Tests for the workflow scripts: the commit-msg rules, and the checks `scripts/agent pr` makes
+# before it touches the network.
+set -eu
+
+here=$(cd "$(dirname "$0")/.." && pwd)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+failures=0
+
+pass() { printf 'ok    %s\n' "$1"; }
+fail_test() {
+	printf 'FAIL  %s\n' "$1"
+	sed 's/^/      /' "$tmp/out"
+	failures=$((failures + 1))
+}
+
+# expect_ok DESCRIPTION COMMAND...
+expect_ok() {
+	desc=$1
+	shift
+	if "$@" >"$tmp/out" 2>&1; then pass "$desc"; else fail_test "$desc"; fi
+}
+
+# expect_refusal DESCRIPTION PATTERN COMMAND...: fails, and says why.
+expect_refusal() {
+	desc=$1 pattern=$2
+	shift 2
+	if "$@" >"$tmp/out" 2>&1; then
+		fail_test "$desc (exited 0)"
+	elif grep -q -- "$pattern" "$tmp/out"; then
+		pass "$desc"
+	else
+		fail_test "$desc (no \"$pattern\" in the output)"
+	fi
+}
+
+# A throwaway repository with this checkout's scripts, hooks and templates, on a work branch.
+repo=$tmp/repo
+mkdir "$repo"
+cp -R "$here/scripts" "$here/.githooks" "$here/.github" "$repo/"
+git -C "$repo" init --quiet -b main
+git -C "$repo" config user.name Test
+git -C "$repo" config user.email test@example.com
+git -C "$repo" config core.hooksPath .githooks
+git -C "$repo" add -A
+git -C "$repo" commit --quiet --no-verify -m "chore: start"
+git -C "$repo" checkout --quiet -b fix/example
+
+message() {
+	printf '%s\n' "$@" >"$tmp/msg"
+	(cd "$repo" && .githooks/commit-msg "$tmp/msg")
+}
+agent() { (cd "$repo" && scripts/agent "$@"); }
+
+expect_ok "commit-msg accepts a Conventional Commit" message "feat(core): parse common.toml"
+expect_refusal "commit-msg refuses a subject without a type" "Conventional Commit" message "parse common.toml"
+expect_refusal "commit-msg refuses a trailing period" "Conventional Commit" message "fix: stop the crash."
+expect_refusal "commit-msg refuses a subject over 72 characters" "keep it to 72" \
+	message "docs: $(printf '%070d' 0)"
+expect_refusal "commit-msg refuses attribution in the body" "attribution" \
+	message "fix: stop the crash" "" "Generated with an AI tool"
+
+expect_refusal "agent pr refuses to open without a description" "--body-file" agent pr
+expect_refusal "agent pr refuses a missing description file" "missing or empty" \
+	agent pr --body-file "$tmp/nothing.md"
+cp "$repo/.github/PULL_REQUEST_TEMPLATE.md" "$tmp/body.md"
+expect_refusal "agent pr refuses the unfilled template" "unfilled template" \
+	agent pr --body-file "$tmp/body.md"
+printf '## Problem\n\nIt crashed.\n\nGenerated with an AI tool\n' >"$tmp/body.md"
+expect_refusal "agent pr refuses attribution in the description" "attribution" \
+	agent pr --body-file "$tmp/body.md"
+printf '## Problem\n\nIt crashed.\n' >"$tmp/body.md"
+git -C "$repo" config --unset core.hooksPath
+expect_refusal "agent pr refuses to push with the hooks off" "hooks are off" \
+	agent pr --body-file "$tmp/body.md"
+
+[ "$failures" -eq 0 ] || {
+	echo "$failures workflow test(s) failed" >&2
+	exit 1
+}

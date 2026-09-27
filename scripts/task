@@ -27,6 +27,7 @@ lint() {
 }
 
 test_all() {
+	scripts/test-workflow
 	cargo test --workspace --locked
 	# Without Xcode, SwiftPM neither finds the Testing framework nor its interop library, so
 	# point the compiler and the test runner at the copies Command Line Tools ships.
