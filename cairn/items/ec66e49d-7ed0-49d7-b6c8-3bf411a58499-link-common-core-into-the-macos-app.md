@@ -25,6 +25,6 @@ before SwiftPM, so the seam stays the only entry point.
 
 ## Acceptance criteria
 
-- [ ] The About panel shows the version read from `common-core`.
+- [x] The About panel shows the version read from `common-core`.
 - [ ] A Swift test calls into Rust and passes under `scripts/task test`, locally without Xcode and on CI.
-- [ ] A clean clone builds with `scripts/setup` followed by `scripts/task build`, with no manual steps.
+- [x] A clean clone builds with `scripts/setup` followed by `scripts/task build`, with no manual steps.
