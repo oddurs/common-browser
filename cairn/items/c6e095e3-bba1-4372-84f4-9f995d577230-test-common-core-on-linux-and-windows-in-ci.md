@@ -2,10 +2,11 @@
 id: c6e095e3-bba1-4372-84f4-9f995d577230
 title: Test common-core on Linux and Windows in CI
 type: chore
-status: doing
+status: done
 milestone: v0.1
 created: 2026-09-26
 updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p1
 effort: s
 area: release
@@ -23,5 +24,5 @@ jobs on `ubuntu-latest` and `windows-latest` that run it, and make `required` de
 
 ## Acceptance criteria
 
-- [ ] CI runs the Rust workspace tests on Linux, Windows and macOS, and `required` fails if any of them fails.
-- [ ] The CI YAML calls only `scripts/task`, with no raw cargo commands.
+- [x] CI runs the Rust workspace tests on Linux, Windows and macOS, and `required` fails if any of them fails.
+- [x] The CI YAML calls only `scripts/task`, with no raw cargo commands.
