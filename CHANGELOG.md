@@ -10,3 +10,5 @@ All notable changes to this project are documented here. The format follows
 
 - A menu bar that lists every command with its shortcut, including standard editing (copy, paste,
   undo) inside pages.
+- `common config check [--path FILE]` reports each error in `common.toml` as
+  `FILE:LINE:COL: MESSAGE` and exits 1 if there are any.
