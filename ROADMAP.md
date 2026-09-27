@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`#·········` 4% · 1 of 23 done · due 2026-11-13
+`##········` 13% · 3 of 23 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -17,7 +17,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`355bebe7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/355bebe7-8757-4197-8c01-df92624fc0d5-command-registry-and-menu-bar.md) Command registry and menu bar <sup>feature · p0 · input</sup>
 - [ ] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [ ] [`4cc437aa`](https://github.com/oddurs/common-browser/blob/main/cairn/items/4cc437aa-c4a6-463b-8620-1ca0a92411dc-javascript-dialogs-and-file-pickers.md) JavaScript dialogs and file pickers <sup>feature · p0 · web</sup>
-- [ ] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
 - [ ] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
@@ -30,11 +29,12 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
 - [ ] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
 - [ ] [`d7f265dd`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d7f265dd-9255-49bb-9d6b-1842fd1afaae-back-forward-reload-stop-and-copy-address.md) Back, forward, reload, stop and copy address <sup>feature · p0 · web</sup>
-- [ ] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
 - [ ] [`fd50f7c7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fd50f7c7-52d2-4a0f-a14d-8ea68fa96cc2-install-guide-and-config-reference-for-v0-1.md) Install guide and config reference for v0.1 <sup>docs · p0 · docs</sup>
 
 ### done
 
+- [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
+- [x] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
 - [x] [`fcb89b44`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fcb89b44-5b91-4f8e-9c37-d8227399e0c9-parse-common-toml-into-a-typed-config.md) Parse common.toml into a typed config <sup>feature · p0 · config</sup>
 
 ## v0.2 — Spaces

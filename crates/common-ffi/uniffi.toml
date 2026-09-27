@@ -1,0 +1,4 @@
+[bindings.swift]
+module_name = "CommonCore"
+ffi_module_name = "CommonCoreFFI"
+ffi_module_filename = "CommonCoreFFI"
