@@ -57,5 +57,15 @@ or release notes. The `commit-msg` hook rejects them.
 
 ## Backlog
 
-Planned work lives in cairn (`cairn` CLI). Work one item per branch and reference it with a
-`Refs:` trailer in the commit body.
+The roadmap lives in cairn: one Markdown file per item under `cairn/items`, the schema in
+`cairn.toml`, and `ROADMAP.md` generated from both. Never edit `ROADMAP.md` by hand.
+
+- `cairn next -m v0.1` lists ready work; `cairn show <id> --criteria` lists what "done" means.
+- One item per branch. In that branch: `cairn set <id> status=doing` first, `cairn tick <id> <n>`
+  as each criterion becomes true, `cairn close <id>` last. The item changes ride in the same pull
+  request as the code, so claims become visible to others only once pushed.
+- Reference the item in the commit body: `Refs: <first 8 characters of the id>`.
+- New work goes in a new item, never a TODO or PLAN file: `cairn new "<title>" --type <type>
+  --milestone <m> --set priority=<p> --set effort=<e> --set area=<a>`.
+- A spike closes with its Answer section written and its follow-up items filed.
+- `cairn check` must pass before a pull request.
