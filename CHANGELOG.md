@@ -8,6 +8,8 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- Links that open a new window, and `window.open`, open a page right beside the page that opened
+  it; `window.close()` closes it and returns to its opener, so sign-in pop-ups complete.
 - `common.toml` is read at launch: `home`, `window.start` and `search.engine` apply, and a mistake
   shows a banner naming its line while every other key still applies. ⌘, opens the file, first
   writing one with every setting commented out.

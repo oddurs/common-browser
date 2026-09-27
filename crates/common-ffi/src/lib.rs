@@ -43,6 +43,10 @@ impl PageList {
         self.pages().open()
     }
 
+    pub fn open_after(&self, opener: PageId) -> PageId {
+        self.pages().open_after(opener)
+    }
+
     pub fn close(&self, id: PageId) -> Option<PageId> {
         self.pages().close(id)
     }
