@@ -28,7 +28,7 @@ private func notices(in window: NSWindow) -> [NoticeView] {
 
   // Poll rather than sleep a fixed time: other tests keep the main actor busy.
   showNotice("brief", in: window, for: .milliseconds(20))
-  let deadline = ContinuousClock.now + .seconds(10)
+  let deadline = ContinuousClock.now + uiTimeout
   while !notices(in: window).isEmpty, ContinuousClock.now < deadline {
     try await Task.sleep(for: .milliseconds(20))
   }
