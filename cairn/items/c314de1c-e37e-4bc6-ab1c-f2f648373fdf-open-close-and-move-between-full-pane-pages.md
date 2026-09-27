@@ -2,12 +2,13 @@
 id: c314de1c-e37e-4bc6-ab1c-f2f648373fdf
 title: Open, close and move between full-pane pages
 type: feature
-status: planned
+status: done
 milestone: v0.1
 depends_on:
 - 355bebe7-8757-4197-8c01-df92624fc0d5
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: chrome
@@ -26,7 +27,7 @@ window. `⌘1–9` stays unbound until Spaces arrive in v0.2.
 
 ## Acceptance criteria
 
-- [ ] The page model (order, current page, closing behaviour) lives in `common-core` with unit tests, and the shell only renders it.
-- [ ] Closing the visible page shows its right-hand neighbour, or the left-hand one if it was last.
-- [ ] Closing the last page never closes the window.
-- [ ] Hidden pages keep their state (scroll position and form contents) when shown again.
+- [x] The page model (order, current page, closing behaviour) lives in `common-core` with unit tests, and the shell only renders it.
+- [x] Closing the visible page shows its right-hand neighbour, or the left-hand one if it was last.
+- [x] Closing the last page never closes the window.
+- [x] Hidden pages keep their state (scroll position and form contents) when shown again.
