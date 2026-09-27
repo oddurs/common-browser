@@ -39,7 +39,7 @@ import Testing
     items(in: menuBar()).compactMap { item in
       Command.all.first { $0.id == item.identifier?.rawValue }?.shortcut?.symbols
     })
-  for expected in ["⌘T", "⌘W", "⌘L", "⌘[", "⌘]", "⌘R", "⇧⌘C", "⌘F", "⌘,", "⌃⌘F"] {
+  for expected in ["⌘T", "⌘W", "⌘L", "⌥⌘L", "⌘[", "⌘]", "⌘R", "⇧⌘C", "⌘F", "⌘,", "⌃⌘F"] {
     #expect(shown.contains(expected), "\(expected) is not in the menu bar")
   }
 }
@@ -51,7 +51,7 @@ import Testing
   let file = try #require(bar.item(withTitle: "File")?.submenu)
   #expect(
     file.items.map { $0.isSeparatorItem ? "-" : $0.title } == [
-      "New Page", "Open Location…", "-", "Close Page",
+      "New Page", "Open Location…", "-", "Close Page", "-", "Show Latest Download",
     ])
 }
 
