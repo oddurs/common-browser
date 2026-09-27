@@ -1,0 +1,15 @@
+#!/bin/sh
+# Exits 0 only if LOG, the output of `swift test`, contains Swift Testing's summary of a passing
+# run. A test process that dies mid-run can still exit 0 (ending an NSOpenPanel in a test does
+# it), so the exit status alone does not show that every test ran.
+set -eu
+
+[ $# -eq 1 ] || {
+	echo "usage: scripts/swift-test-passed LOG" >&2
+	exit 2
+}
+if grep -Eq 'Test run with [0-9]+ tests? .*passed after' "$1"; then
+	exit 0
+fi
+echo "swift-test-passed: swift test ended without reporting a passing run; see its output above" >&2
+exit 1
