@@ -4,7 +4,7 @@
 
 ## v0.1 — Browse from the keyboard
 
-`#####·····` 44% · 11 of 25 done · due 2026-11-13
+`#####·····` 48% · 12 of 25 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
@@ -13,7 +13,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`08d694a4`](https://github.com/oddurs/common-browser/blob/main/cairn/items/08d694a4-3d33-4ff0-b526-a48a90ab20ab-assemble-common-browser-app-from-the-swiftpm-build.md) Assemble Common Browser.app from the SwiftPM build <sup>feature · p0 · macos</sup>
 - [ ] [`1778290b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/1778290b-d0fa-4561-b095-36bd85f01755-capsule-title-position-and-loading-state.md) Capsule: title, position and loading state <sup>feature · p1 · chrome</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
-- [ ] [`88f87ade`](https://github.com/oddurs/common-browser/blob/main/cairn/items/88f87ade-d2e6-4d5b-89e0-a08c24a69cc0-launcher-go-to-an-address-search-or-switch-page.md) Launcher: go to an address, search, or switch page <sup>feature · p0 · chrome</sup>
 - [ ] [`b99f0ee3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b99f0ee3-b421-4242-93c1-693f5a31de2d-graphite-and-paper-themes-following-system-appearance.md) Graphite and paper themes following system appearance <sup>feature · p1 · chrome</sup>
 - [ ] [`fd50f7c7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fd50f7c7-52d2-4a0f-a14d-8ea68fa96cc2-install-guide-and-config-reference-for-v0-1.md) Install guide and config reference for v0.1 <sup>docs · p0 · docs</sup>
 
@@ -35,6 +34,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [x] [`5a5be429`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5a5be429-42b6-4767-9222-cdb12a2db911-swift-test-can-report-success-without-running-every-test.md) swift test can report success without running every test <sup>bug · p0 · release</sup>
 - [x] [`5ad0243e`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5ad0243e-deab-4e83-bacc-abce83512afc-spike-call-rust-from-the-swift-app-without-xcode.md) Spike: call Rust from the Swift app without Xcode <sup>spike · p0 · bridge</sup>
 - [x] [`5e2d8493`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e2d8493-f3ae-40e5-a860-94f6e9ed1657-add-common-config-check.md) Add `common config check` <sup>feature · p1 · cli</sup>
+- [x] [`88f87ade`](https://github.com/oddurs/common-browser/blob/main/cairn/items/88f87ade-d2e6-4d5b-89e0-a08c24a69cc0-launcher-go-to-an-address-search-or-switch-page.md) Launcher: go to an address, search, or switch page <sup>feature · p0 · chrome</sup>
 - [x] [`a5325703`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a5325703-e633-467d-9801-5a94139c7e9e-smoke-test-load-a-local-page-in-a-web-view-under-swift-test.md) Smoke test: load a local page in a web view under swift test <sup>chore · p1 · macos</sup>
 - [x] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
 - [x] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>

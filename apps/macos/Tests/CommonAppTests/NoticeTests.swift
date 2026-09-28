@@ -1,5 +1,6 @@
 import AppKit
 import Testing
+import WebKit
 
 @testable import CommonApp
 
@@ -18,7 +19,10 @@ private func notices(in window: NSWindow) -> [NoticeView] {
 
   controller.newPage(nil)
   #expect(notices(in: window).map(\.text) == ["second"])
-  #expect(window.contentView?.subviews.last is NoticeView)
+  let views = try #require(window.contentView?.subviews)
+  let notice = try #require(views.lastIndex { $0 is NoticeView })
+  // Above every page; the launcher, when open, may sit above it.
+  #expect(views.indices.filter { views[$0] is WKWebView }.allSatisfy { $0 < notice })
 }
 
 @MainActor

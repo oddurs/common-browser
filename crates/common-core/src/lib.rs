@@ -3,6 +3,7 @@
 
 pub mod config;
 pub mod downloads;
+pub mod launcher;
 pub mod pages;
 
 /// The version reported by every shell and by the CLI.

@@ -14,7 +14,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, BrowserActions {
     let loaded = loadConfig()
     let home = URL(string: loaded.settings.home) ?? URL(string: "about:blank")!
     let controller = BrowserWindowController(
-      url: startURL(arguments: CommandLine.arguments, home: home), home: home)
+      url: startURL(arguments: CommandLine.arguments, home: home), home: home,
+      searchEngine: loaded.settings.searchEngine)
     controller.showWindow(nil)
     if let text = configBannerText(for: loaded) {
       controller.showConfigBanner(text)

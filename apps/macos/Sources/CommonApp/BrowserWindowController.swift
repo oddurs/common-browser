@@ -14,6 +14,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   private let pageDelegate = PageDelegate()
   private let container = NSView()
   let find = FindState()
+  let launcher: LauncherState
   private let home: URL
 
   /// The page on screen.
@@ -26,9 +27,14 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
   /// The key under which AppKit saves the window's frame between launches.
   static let frameName = "BrowserWindow"
 
-  /// `home` is what a new page opens.
-  public init(url: URL, home: URL = URL(string: "about:blank")!) {
+  /// `home` is what a new page opens; `searchEngine` is where launcher searches go, a URL template
+  /// with `%s` for the terms.
+  public init(
+    url: URL, home: URL = URL(string: "about:blank")!,
+    searchEngine: String = defaultSettings().searchEngine
+  ) {
     self.home = home
+    launcher = LauncherState(searchEngine: searchEngine)
     // The page owns the window: no toolbar, a transparent title bar, content under it.
     let window = NSWindow(
       contentRect: NSRect(x: 0, y: 0, width: 1280, height: 800),
@@ -83,8 +89,10 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
     if let id = id(of: webView) { close(id) }
   }
 
+  /// ⌘T: a new page, with the launcher open on it.
   public func newPage(_ sender: Any?) {
     openPage(home)
+    showLauncher()
   }
 
   public func closePage(_ sender: Any?) {
@@ -112,6 +120,16 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
 
   public func previousPage(_ sender: Any?) {
     show(pages.showPrevious())
+  }
+
+  /// The pages in order.
+  var pageIDs: [UInt64] { pages.ids() }
+
+  func webView(for id: UInt64) -> WKWebView? { webViews[id] }
+
+  /// Makes `id` the page on screen.
+  func showPage(_ id: UInt64) {
+    if pages.select(id: id) { show(id) }
   }
 
   /// Puts the page's web view on screen. Hidden pages stay alive, off screen, so they keep their
