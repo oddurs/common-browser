@@ -22,7 +22,26 @@ This is the very start of the project.
   config file). It is a design reference, not part of the product; see
   [prototype/README.md](prototype/README.md).
 
-## Quickstart
+## Install
+
+Common Browser needs macOS 14 or later, on Apple silicon or Intel.
+
+1. Download `common-browser-<version>-macos.zip` from the
+   [latest release](https://github.com/oddurs/common-browser/releases) and double-click it.
+2. Drag **Common Browser** into your Applications folder.
+3. Open it. The first time, macOS refuses, because releases are not yet signed with a Developer
+   ID. Close the warning, open **System Settings → Privacy & Security**, and click **Open Anyway**
+   next to the message about Common Browser, then confirm. From then on it opens normally.
+4. To check a download, compare it with the `.sha256` file from the same release:
+   `shasum -a 256 -c common-browser-<version>-macos.zip.sha256`.
+
+Settings live in `~/.config/common/common.toml`; press ⌘, to open it. Every key is described in
+[docs/config.md](docs/config.md).
+
+The `common` command, which checks the config from a terminal, is not in the download yet. Build it
+from source with `cargo install --path crates/common-cli`, which puts it on your PATH.
+
+## Build from source
 
 Requirements: macOS 14 or later, Rust (installed with [rustup](https://rustup.rs)), and Swift 6
 from Xcode or the Command Line Tools (`xcode-select --install`).
