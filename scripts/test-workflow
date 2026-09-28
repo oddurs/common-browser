@@ -96,6 +96,27 @@ printf '%s\n' '✘ Test run with 13 tests in 0 suites failed after 0.584 seconds
 expect_refusal "swift-test-passed refuses a failed run" "without reporting" \
 	"$here/scripts/swift-test-passed" "$tmp/fail.log"
 
+# swift-test-run: swift's status and the summary line both count, and a failure says only what
+# failed. A fake `swift` on the PATH stands in for the real one.
+mkdir "$tmp/bin"
+fake_swift() {
+	printf '#!/bin/sh\n%s\n' "$1" >"$tmp/bin/swift"
+	chmod +x "$tmp/bin/swift"
+}
+swift_test_run() { PATH="$tmp/bin:$PATH" "$here/scripts/swift-test-run"; }
+fake_swift "echo '✔ Test run with 3 tests in 1 suite passed after 1.0 seconds.'"
+expect_ok "swift-test-run passes a passing run" swift_test_run
+fake_swift "echo '✘ Test run with 3 tests in 1 suite failed after 1.0 seconds with 1 issue.'; exit 1"
+expect_refusal "swift-test-run fails a failing run with swift's own output" "failed after" swift_test_run
+if grep -q 'No such file' "$tmp/out"; then
+	fail_test "swift-test-run reports a failing run as a missing status file"
+else
+	pass "swift-test-run reports nothing but swift's own failure"
+fi
+fake_swift "echo '◇ Test run started.'"
+expect_refusal "swift-test-run fails a run that exits 0 before its summary" "without reporting" \
+	swift_test_run
+
 # pre-push: never to the default branch; skip the check only for content that already passed.
 zero=0000000000000000000000000000000000000000
 prepush() { printf '%s\n' "$1" | (cd "$repo" && .githooks/pre-push origin example); }
