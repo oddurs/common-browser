@@ -115,7 +115,7 @@ private struct TimedOut: Error {}
 
 /// Polls `value` until it is non-nil, for things that happen after script returns.
 @MainActor
-private func eventually<T>(_ value: () async throws -> T?) async throws -> T {
+private func eventually<T>(_ value: @MainActor () async throws -> T?) async throws -> T {
   let deadline = ContinuousClock.now + uiTimeout
   while ContinuousClock.now < deadline {
     if let found = try await value() { return found }
