@@ -1,0 +1,21 @@
+#!/bin/sh
+# Runs `swift test ARGS...` with its output streaming, and exits 0 only if swift exited 0 and
+# Swift Testing reported a passing run. A test process that dies mid-run can exit 0 (ending an
+# NSOpenPanel in a test does it), so swift's status alone does not show that every test ran.
+set -eu
+
+here=$(dirname "$0")
+log=$(mktemp)
+trap 'rm -f "$log" "$log.status"' EXIT
+
+# POSIX sh has no pipefail, so swift's own status goes to a file. `|| status=$?` stops set -e
+# from ending the group before the status is written when the tests fail.
+{
+	status=0
+	swift test "$@" 2>&1 || status=$?
+	echo "$status" >"$log.status"
+} | tee "$log"
+
+status=$(cat "$log.status")
+[ "$status" -eq 0 ] || exit "$status"
+"$here/swift-test-passed" "$log"

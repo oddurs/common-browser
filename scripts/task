@@ -138,17 +138,7 @@ test_all() {
 	else
 		set --
 	fi
-	# The output streams through tee; POSIX sh has no pipefail, so swift's own status goes to a file.
-	log=$(mktemp)
-	{
-		swift test --package-path "$SWIFT_PACKAGE" "$@" 2>&1
-		echo $? >"$log.status"
-	} | tee "$log"
-	status=$(cat "$log.status")
-	summary=0
-	scripts/swift-test-passed "$log" || summary=$?
-	rm -f "$log" "$log.status"
-	[ "$status" -eq 0 ] && [ "$summary" -eq 0 ]
+	scripts/swift-test-run --package-path "$SWIFT_PACKAGE" "$@"
 }
 
 # The Rust workspace alone, for the Linux and Windows runners, which have no Swift toolchain. The
