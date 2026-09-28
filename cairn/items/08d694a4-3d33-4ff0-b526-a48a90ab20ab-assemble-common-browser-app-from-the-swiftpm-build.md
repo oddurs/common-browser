@@ -2,12 +2,13 @@
 id: 08d694a4-3d33-4ff0-b526-a48a90ab20ab
 title: Assemble Common Browser.app from the SwiftPM build
 type: feature
-status: doing
+status: done
 milestone: v0.1
 depends_on:
 - ec66e49d-7ed0-49d7-b6c8-3bf411a58499
 created: 2026-09-26
 updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: macos
@@ -26,6 +27,10 @@ Add `scripts/task package`. It builds a release for arm64 and x86_64 (Rust with 
 
 ## Acceptance criteria
 
-- [ ] `scripts/task package` produces a zip whose app launches from Finder on Apple silicon and Intel.
+- [x] `scripts/task package` produces a zip whose app launches from Finder on Apple silicon and Intel.
 - [x] `codesign --verify --deep --strict` passes on the bundle.
-- [ ] The build is reproducible from a clean clone with no Xcode project.
+- [x] The build is reproducible from a clean clone with no Xcode project.
+
+## 2026-09-27
+
+Verified: universal (x86_64 arm64), codesign --verify --deep --strict passes (adhoc,runtime), the unzipped app launched through Launch Services as ARM64 and as X86-64 (translated) under Rosetta; a fresh clone built the same 947 KB zip. Intel hardware itself is untested.

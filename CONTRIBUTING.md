@@ -54,6 +54,10 @@ Xcode is not required. With only the Command Line Tools installed, `scripts/task
 `swift test` at the Testing framework the Command Line Tools ship, which SwiftPM does not find on
 its own.
 
+`scripts/task package` builds the release: `dist/Common Browser.app` for Apple silicon and Intel,
+ad-hoc signed, and zipped beside it. It needs the Rust targets in `rust-toolchain.toml`, which
+rustup installs on first use.
+
 ## Reviews
 
 `main` requires a pull request with a passing `required` check and resolved conversations.
