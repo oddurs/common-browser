@@ -14,7 +14,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`1778290b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/1778290b-d0fa-4561-b095-36bd85f01755-capsule-title-position-and-loading-state.md) Capsule: title, position and loading state <sup>feature · p1 · chrome</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`88f87ade`](https://github.com/oddurs/common-browser/blob/main/cairn/items/88f87ade-d2e6-4d5b-89e0-a08c24a69cc0-launcher-go-to-an-address-search-or-switch-page.md) Launcher: go to an address, search, or switch page <sup>feature · p0 · chrome</sup>
-- [ ] [`aa0e6d3a`](https://github.com/oddurs/common-browser/blob/main/cairn/items/aa0e6d3a-c9cc-4f05-b814-68f03fb1a2ea-open-target-blank-links-and-window-open-as-pages.md) Open target=_blank links and window.open as pages <sup>feature · p0 · web</sup>
 - [ ] [`b99f0ee3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b99f0ee3-b421-4242-93c1-693f5a31de2d-graphite-and-paper-themes-following-system-appearance.md) Graphite and paper themes following system appearance <sup>feature · p1 · chrome</sup>
 - [ ] [`fd50f7c7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fd50f7c7-52d2-4a0f-a14d-8ea68fa96cc2-install-guide-and-config-reference-for-v0-1.md) Install guide and config reference for v0.1 <sup>docs · p0 · docs</sup>
 
@@ -26,6 +25,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
 - [ ] [`7f4481e9`](https://github.com/oddurs/common-browser/blob/main/cairn/items/7f4481e9-3a6a-4a63-87e3-3b514f7c84cb-downloads.md) Downloads <sup>feature · p1 · web</sup>
 - [ ] [`a1afb662`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a1afb662-be9a-407b-ac98-05957b2b4e8a-element-full-screen-for-video.md) Element full screen for video <sup>feature · p1 · web</sup>
+- [ ] [`aa0e6d3a`](https://github.com/oddurs/common-browser/blob/main/cairn/items/aa0e6d3a-c9cc-4f05-b814-68f03fb1a2ea-open-target-blank-links-and-window-open-as-pages.md) Open target=_blank links and window.open as pages <sup>feature · p0 · web</sup>
 - [ ] [`d7f265dd`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d7f265dd-9255-49bb-9d6b-1842fd1afaae-back-forward-reload-stop-and-copy-address.md) Back, forward, reload, stop and copy address <sup>feature · p0 · web</sup>
 
 ### done

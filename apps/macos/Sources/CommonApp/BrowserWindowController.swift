@@ -49,6 +49,7 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
     // remembered; v0.1 has one window.
     window.setFrameAutosaveName(Self.frameName)
     super.init(window: window)
+    pageDelegate.windowController = self
     openPage(url)
   }
 
@@ -67,20 +68,42 @@ public final class BrowserWindowController: NSWindowController, BrowserActions {
     return webView
   }
 
+  /// Adds the page a page's script or link asked for, right after `opener`, and shows it. WebKit
+  /// loads it, so it is returned empty.
+  func openPage(openedBy opener: WKWebView, configuration: WKWebViewConfiguration) -> WKWebView {
+    let webView = makePageWebView(delegate: pageDelegate, configuration: configuration)
+    let id = id(of: opener).map { pages.openAfter(opener: $0) } ?? pages.open()
+    webViews[id] = webView
+    show(pages.current())
+    return webView
+  }
+
+  /// Closes the page that shows `webView`, as when its script calls `window.close()`.
+  func closePage(showing webView: WKWebView) {
+    if let id = id(of: webView) { close(id) }
+  }
+
   public func newPage(_ sender: Any?) {
     openPage(home)
   }
 
   public func closePage(_ sender: Any?) {
-    guard let id = pages.current() else { return }
+    if let id = pages.current() { close(id) }
+  }
+
+  private func close(_ id: UInt64) {
     webViews.removeValue(forKey: id)?.removeFromSuperview()
     if let next = pages.close(id: id) {
       show(next)
     } else {
       // The window outlives its pages: closing the last one leaves a fresh page, not a closed
       // window, as the browser has no other place to type an address.
-      newPage(sender)
+      newPage(nil)
     }
+  }
+
+  private func id(of webView: WKWebView) -> UInt64? {
+    webViews.first { $0.value === webView }?.key
   }
 
   public func nextPage(_ sender: Any?) {
