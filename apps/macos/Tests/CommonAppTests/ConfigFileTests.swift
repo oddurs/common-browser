@@ -1,6 +1,7 @@
 import CommonCore
 import Foundation
 import Testing
+import WebKit
 
 @testable import CommonApp
 
@@ -72,6 +73,7 @@ private func problem(line: UInt32, _ summary: String) -> ConfigProblem {
   controller.newPage(nil)
   controller.previousPage(nil)
   let views = try #require(controller.window?.contentView?.subviews)
-  #expect(views.contains { $0 is ConfigBanner })
-  #expect(views.last is ConfigBanner)
+  let banner = try #require(views.lastIndex { $0 is ConfigBanner })
+  // Above every page; the launcher, when open, may sit above it.
+  #expect(views.indices.filter { views[$0] is WKWebView }.allSatisfy { $0 < banner })
 }

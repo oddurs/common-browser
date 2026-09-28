@@ -2,13 +2,14 @@
 id: 88f87ade-d2e6-4d5b-89e0-a08c24a69cc0
 title: 'Launcher: go to an address, search, or switch page'
 type: feature
-status: planned
+status: done
 milestone: v0.1
 depends_on:
 - 266d12d4-7099-406d-9c75-4e60a0fd8151
 - c314de1c-e37e-4bc6-ab1c-f2f648373fdf
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
+closed_at: 2026-09-27
 priority: p0
 effort: m
 area: chrome
@@ -27,7 +28,7 @@ switches to one. Esc closes the launcher and returns focus to the page.
 
 ## Acceptance criteria
 
-- [ ] The classification of input as address or search is in `common-core`, with tests for `localhost:5173`, `example.org`, `what is rust`, `https://x`, `about:blank` and `file:///tmp/a.html`.
-- [ ] Typing and Return navigates within one frame of Return.
-- [ ] Open pages are matched by title and URL, and the arrow keys and Return select one.
-- [ ] Esc restores focus to the element that had it before.
+- [x] The classification of input as address or search is in `common-core`, with tests for `localhost:5173`, `example.org`, `what is rust`, `https://x`, `about:blank` and `file:///tmp/a.html`.
+- [x] Typing and Return navigates within one frame of Return.
+- [x] Open pages are matched by title and URL, and the arrow keys and Return select one.
+- [x] Esc restores focus to the element that had it before.

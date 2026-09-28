@@ -204,3 +204,48 @@ pub fn ensure_config_file() -> Result<String, ConfigFileError> {
         .map_err(|err| ConfigFileError::Io(format!("cannot create {}: {err}", path.display())))?;
     Ok(path.display().to_string())
 }
+
+/// Where launcher input leads: an address to open, or a search URL.
+#[derive(uniffi::Enum)]
+pub enum LauncherDestination {
+    Address { url: String },
+    Search { url: String },
+}
+
+/// Reads launcher input with `engine` as the search template; `None` for blank input.
+#[uniffi::export]
+pub fn launcher_destination(input: String, engine: String) -> Option<LauncherDestination> {
+    use common_core::launcher::Destination;
+    common_core::launcher::destination(&input, &engine).map(|destination| match destination {
+        Destination::Address(url) => LauncherDestination::Address { url },
+        Destination::Search(url) => LauncherDestination::Search { url },
+    })
+}
+
+/// An open page as the launcher lists it.
+#[derive(uniffi::Record)]
+pub struct LauncherPage {
+    pub id: PageId,
+    pub title: String,
+    pub url: String,
+}
+
+/// The ids of the open pages that `query` names, best first.
+#[uniffi::export]
+pub fn launcher_matching_pages(query: String, pages: Vec<LauncherPage>) -> Vec<PageId> {
+    let pages: Vec<_> = pages
+        .into_iter()
+        .map(|page| common_core::launcher::PageSummary {
+            id: page.id,
+            title: page.title,
+            url: page.url,
+        })
+        .collect();
+    common_core::launcher::matching_pages(&query, &pages)
+}
+
+/// The settings when `common.toml` sets nothing.
+#[uniffi::export]
+pub fn default_settings() -> Settings {
+    Config::default().into()
+}
