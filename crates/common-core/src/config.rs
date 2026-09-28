@@ -940,14 +940,32 @@ engine = \"https://duckduckgo.com/\"
             }
         }
         found.sort();
-        let mut expected: Vec<String> = TOP_LEVEL
+        assert_eq!(found, every_key());
+    }
+
+    /// Every key the parser accepts, as dotted paths, sorted.
+    fn every_key() -> Vec<String> {
+        let mut keys: Vec<String> = TOP_LEVEL
             .iter()
             .filter(|key| !["window", "search", "keys"].contains(key))
             .map(|key| key.to_string())
             .chain(["window.start", "search.engine", "keys.mode"].map(String::from))
             .collect();
-        expected.sort();
-        assert_eq!(found, expected);
+        keys.sort();
+        keys
+    }
+
+    #[test]
+    fn the_user_docs_mention_every_key() {
+        let docs = include_str!("../../../docs/config.md");
+        let missing: Vec<String> = every_key()
+            .into_iter()
+            .filter(|key| !docs.contains(&format!("`{key}`")))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "docs/config.md does not mention {missing:?}"
+        );
     }
 
     #[test]

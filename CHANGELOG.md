@@ -8,6 +8,7 @@ All notable changes to this project are documented here. The format follows
 
 ### Added
 
+- `docs/config.md`, describing every setting, and install steps in the README.
 - The launcher: ⌘L over the page, or ⌘T on a new page. Type an address or words to search, or pick
   an open page with the arrow keys; Return goes, Esc puts focus back where it was.
 - Links that open a new window, and `window.open`, open a page right beside the page that opened
