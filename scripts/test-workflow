@@ -85,6 +85,17 @@ expect_refusal "agent pr refuses to push with the hooks off" "hooks are off" \
 	agent pr --body-file "$tmp/body.md"
 git -C "$repo" config core.hooksPath .githooks
 
+# swift-test-passed: trust the summary line, not the exit status.
+printf '%s\n' '✔ Test a() passed after 0.001 seconds.' \
+	'✔ Test run with 21 tests in 0 suites passed after 0.514 seconds.' >"$tmp/pass.log"
+expect_ok "swift-test-passed accepts a passing run" "$here/scripts/swift-test-passed" "$tmp/pass.log"
+printf '%s\n' '◇ Test run started.' '✔ Test a() passed after 0.001 seconds.' >"$tmp/cut.log"
+expect_refusal "swift-test-passed refuses a run that stopped before its summary" "without reporting" \
+	"$here/scripts/swift-test-passed" "$tmp/cut.log"
+printf '%s\n' '✘ Test run with 13 tests in 0 suites failed after 0.584 seconds with 1 issue.' >"$tmp/fail.log"
+expect_refusal "swift-test-passed refuses a failed run" "without reporting" \
+	"$here/scripts/swift-test-passed" "$tmp/fail.log"
+
 # pre-push: never to the default branch; skip the check only for content that already passed.
 zero=0000000000000000000000000000000000000000
 prepush() { printf '%s\n' "$1" | (cd "$repo" && .githooks/pre-push origin example); }
