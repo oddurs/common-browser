@@ -4,13 +4,14 @@
 
 ## v0.1 — Browse from the keyboard
 
-`######····` 52% · 14 of 27 done · due 2026-11-13
+`######····` 52% · 15 of 29 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
 ### backlog
 
-- [ ] [`c538c2fe`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c538c2fe-2ba9-444c-a167-ebe32fffcbb2-the-sign-in-pop-up-test-can-time-out-on-a-loaded-machine.md) The sign-in pop-up test can time out on a loaded machine <sup>bug · p1 · web</sup>
+- [ ] [`6873d32b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/6873d32b-a6d9-4154-baee-15e5e89beccc-find-tests-stall-for-up-to-an-hour-in-local-runs.md) Find tests stall for up to an hour in local runs <sup>bug · p1 · web</sup>
+- [ ] [`b0af6864`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b0af6864-df8d-411f-9617-0aae26e7ac17-ci-s-swift-is-stricter-than-the-local-toolchain.md) CI's Swift is stricter than the local toolchain <sup>chore · p1 · release</sup>
 
 ### planned
 
@@ -42,6 +43,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [x] [`88f87ade`](https://github.com/oddurs/common-browser/blob/main/cairn/items/88f87ade-d2e6-4d5b-89e0-a08c24a69cc0-launcher-go-to-an-address-search-or-switch-page.md) Launcher: go to an address, search, or switch page <sup>feature · p0 · chrome</sup>
 - [x] [`a5325703`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a5325703-e633-467d-9801-5a94139c7e9e-smoke-test-load-a-local-page-in-a-web-view-under-swift-test.md) Smoke test: load a local page in a web view under swift test <sup>chore · p1 · macos</sup>
 - [x] [`c314de1c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c314de1c-e37e-4bc6-ab1c-f2f648373fdf-open-close-and-move-between-full-pane-pages.md) Open, close and move between full-pane pages <sup>feature · p0 · chrome</sup>
+- [x] [`c538c2fe`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c538c2fe-2ba9-444c-a167-ebe32fffcbb2-the-sign-in-pop-up-test-can-time-out-on-a-loaded-machine.md) The sign-in pop-up test can time out on a loaded machine <sup>bug · p1 · web</sup>
 - [x] [`c6e095e3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/c6e095e3-bba1-4372-84f4-9f995d577230-test-common-core-on-linux-and-windows-in-ci.md) Test common-core on Linux and Windows in CI <sup>chore · p1 · release</sup>
 - [x] [`d197db90`](https://github.com/oddurs/common-browser/blob/main/cairn/items/d197db90-97de-4497-9453-1793c9e1cc8e-ui-tests-fail-when-the-machine-is-heavily-loaded.md) UI tests fail when the machine is heavily loaded <sup>bug · p0 · release</sup>
 - [x] [`ec66e49d`](https://github.com/oddurs/common-browser/blob/main/cairn/items/ec66e49d-7ed0-49d7-b6c8-3bf411a58499-link-common-core-into-the-macos-app.md) Link common-core into the macOS app <sup>feature · p0 · bridge</sup>
