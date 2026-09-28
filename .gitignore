@@ -1,6 +1,9 @@
 # Rust
 /target/
 
+# Packaged app
+/dist/
+
 # Swift
 /apps/macos/.build/
 /apps/macos/.swiftpm/

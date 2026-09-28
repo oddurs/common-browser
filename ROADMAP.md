@@ -4,13 +4,12 @@
 
 ## v0.1 — Browse from the keyboard
 
-`#####·····` 48% · 12 of 25 done · due 2026-11-13
+`######····` 52% · 13 of 25 done · due 2026-11-13
 
 Browse the web all day from the keyboard. Download the app from GitHub Releases, open it, and it
 
 ### planned
 
-- [ ] [`08d694a4`](https://github.com/oddurs/common-browser/blob/main/cairn/items/08d694a4-3d33-4ff0-b526-a48a90ab20ab-assemble-common-browser-app-from-the-swiftpm-build.md) Assemble Common Browser.app from the SwiftPM build <sup>feature · p0 · macos</sup>
 - [ ] [`1778290b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/1778290b-d0fa-4561-b095-36bd85f01755-capsule-title-position-and-loading-state.md) Capsule: title, position and loading state <sup>feature · p1 · chrome</sup>
 - [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`b99f0ee3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b99f0ee3-b421-4242-93c1-693f5a31de2d-graphite-and-paper-themes-following-system-appearance.md) Graphite and paper themes following system appearance <sup>feature · p1 · chrome</sup>
@@ -29,6 +28,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 
 ### done
 
+- [x] [`08d694a4`](https://github.com/oddurs/common-browser/blob/main/cairn/items/08d694a4-3d33-4ff0-b526-a48a90ab20ab-assemble-common-browser-app-from-the-swiftpm-build.md) Assemble Common Browser.app from the SwiftPM build <sup>feature · p0 · macos</sup>
 - [x] [`355bebe7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/355bebe7-8757-4197-8c01-df92624fc0d5-command-registry-and-menu-bar.md) Command registry and menu bar <sup>feature · p0 · input</sup>
 - [x] [`363132d3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/363132d3-d4a8-431e-b2cc-0a54c9d9c754-spike-developer-id-signing-and-notarization-in-ci.md) Spike: Developer ID signing and notarization in CI <sup>spike · p1 · release</sup>
 - [x] [`5a5be429`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5a5be429-42b6-4767-9222-cdb12a2db911-swift-test-can-report-success-without-running-every-test.md) swift test can report success without running every test <sup>bug · p0 · release</sup>

@@ -61,7 +61,8 @@ scripts/agent done                    # after merge: removes the worktree and br
 ```
 
 `scripts/task check` runs formatting, lint (warnings are errors), tests and the build for both
-Rust and Swift. See [CONTRIBUTING.md](CONTRIBUTING.md) for the details.
+Rust and Swift. See [CONTRIBUTING.md](CONTRIBUTING.md) for the details. `scripts/task package`
+builds `dist/Common Browser.app` for Apple silicon and Intel and zips it.
 
 ## License
 

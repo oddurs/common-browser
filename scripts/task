@@ -16,19 +16,94 @@ install_if_changed() {
 	cmp -s "$1" "$2" 2>/dev/null || cp "$1" "$2"
 }
 
-# SwiftPM cannot run cargo, so every Swift step that compiles first builds common-core's static
-# library and generates its Swift bindings into Generated/, which Package.swift reads.
-swift_core() {
-	cargo build --locked -p common-ffi
+# Generates common-core's Swift bindings from the static library LIB and stages both into
+# Generated/, which Package.swift reads.
+stage_core() {
 	out=$(mktemp -d)
 	cargo run --locked --quiet -p uniffi-bindgen -- generate --language swift \
-		--library target/debug/libcommon_ffi.a --out-dir "$out"
+		--library "$1" --out-dir "$out"
 	mkdir -p "$GENERATED/CommonCore" "$GENERATED/CommonCoreFFI" "$GENERATED/lib"
 	install_if_changed "$out/CommonCore.swift" "$GENERATED/CommonCore/CommonCore.swift"
 	install_if_changed "$out/CommonCoreFFI.h" "$GENERATED/CommonCoreFFI/CommonCoreFFI.h"
 	install_if_changed "$out/CommonCoreFFI.modulemap" "$GENERATED/CommonCoreFFI/module.modulemap"
-	install_if_changed target/debug/libcommon_ffi.a "$GENERATED/lib/libcommon_ffi.a"
+	install_if_changed "$1" "$GENERATED/lib/libcommon_ffi.a"
 	rm -rf "$out"
+}
+
+# SwiftPM cannot run cargo, so every Swift step that compiles first builds common-core's static
+# library and stages it with its bindings.
+swift_core() {
+	cargo build --locked -p common-ffi
+	stage_core target/debug/libcommon_ffi.a
+}
+
+APP_NAME="Common Browser"
+BUNDLE_ID=io.github.oddurs.commonbrowser
+
+# A release build for Apple silicon and Intel, assembled into dist/Common Browser.app, ad-hoc
+# signed with the hardened runtime, and zipped. SwiftPM builds several architectures at once only
+# through Xcode, so each is built on its own and the results are joined with lipo.
+package() {
+	version=$(cargo pkgid -p common-core | sed 's/.*[#@]//')
+	for arch in aarch64 x86_64; do
+		cargo build --locked --release -p common-ffi --target "$arch-apple-darwin"
+	done
+	universal=target/universal-apple-darwin/release
+	mkdir -p "$universal"
+	lipo -create -output "$universal/libcommon_ffi.a" \
+		target/aarch64-apple-darwin/release/libcommon_ffi.a \
+		target/x86_64-apple-darwin/release/libcommon_ffi.a
+	stage_core "$universal/libcommon_ffi.a"
+	for arch in arm64 x86_64; do
+		swift build --package-path "$SWIFT_PACKAGE" -c release --triple "$arch-apple-macosx14.0" \
+			-Xswiftc -warnings-as-errors
+	done
+
+	app="dist/$APP_NAME.app"
+	rm -rf dist
+	mkdir -p "$app/Contents/MacOS"
+	lipo -create -output "$app/Contents/MacOS/CommonBrowser" \
+		"$SWIFT_PACKAGE/.build/arm64-apple-macosx/release/CommonBrowser" \
+		"$SWIFT_PACKAGE/.build/x86_64-apple-macosx/release/CommonBrowser"
+	info_plist "$version" >"$app/Contents/Info.plist"
+	# Ad-hoc: a Developer ID signature arrives with the signing item.
+	codesign --force --options runtime --sign - "$app"
+	codesign --verify --deep --strict "$app"
+	ditto -c -k --keepParent "$app" "dist/common-browser-$version-macos.zip"
+	echo "dist/common-browser-$version-macos.zip"
+}
+
+info_plist() {
+	cat <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>en</string>
+	<key>CFBundleExecutable</key>
+	<string>CommonBrowser</string>
+	<key>CFBundleIdentifier</key>
+	<string>$BUNDLE_ID</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>$APP_NAME</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$1</string>
+	<key>CFBundleVersion</key>
+	<string>$1</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
+</dict>
+</plist>
+EOF
 }
 
 fmt() {
@@ -98,7 +173,7 @@ record_pass() {
 }
 
 usage() {
-	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check|check:core>" >&2
+	echo "usage: scripts/task <fmt|fmt:check|lint|test|build|check|check:core|package>" >&2
 	exit 2
 }
 
@@ -118,5 +193,6 @@ check)
 	record_pass
 	;;
 check:core) check_core ;;
+package) package ;;
 *) usage ;;
 esac
