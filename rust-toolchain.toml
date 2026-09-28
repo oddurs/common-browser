@@ -2,3 +2,5 @@
 channel = "1.98.1"
 components = ["rustfmt", "clippy"]
 profile = "minimal"
+# Intel Macs: `scripts/task package` builds a universal app.
+targets = ["aarch64-apple-darwin", "x86_64-apple-darwin"]
