@@ -2,12 +2,12 @@
 id: 5e5657e6-273a-4ba3-94af-45ea0606b5dd
 title: Publish the app to GitHub Releases on a tag
 type: chore
-status: planned
+status: doing
 milestone: v0.1
 depends_on:
 - 08d694a4-3d33-4ff0-b526-a48a90ab20ab
 created: 2026-09-26
-updated: 2026-09-26
+updated: 2026-09-27
 priority: p0
 effort: s
 area: release
