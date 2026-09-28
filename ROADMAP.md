@@ -16,7 +16,6 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 ### planned
 
 - [ ] [`1778290b`](https://github.com/oddurs/common-browser/blob/main/cairn/items/1778290b-d0fa-4561-b095-36bd85f01755-capsule-title-position-and-loading-state.md) Capsule: title, position and loading state <sup>feature · p1 · chrome</sup>
-- [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`b99f0ee3`](https://github.com/oddurs/common-browser/blob/main/cairn/items/b99f0ee3-b421-4242-93c1-693f5a31de2d-graphite-and-paper-themes-following-system-appearance.md) Graphite and paper themes following system appearance <sup>feature · p1 · chrome</sup>
 - [ ] [`fd50f7c7`](https://github.com/oddurs/common-browser/blob/main/cairn/items/fd50f7c7-52d2-4a0f-a14d-8ea68fa96cc2-install-guide-and-config-reference-for-v0-1.md) Install guide and config reference for v0.1 <sup>docs · p0 · docs</sup>
 
@@ -25,6 +24,7 @@ Browse the web all day from the keyboard. Download the app from GitHub Releases,
 - [ ] [`266d12d4`](https://github.com/oddurs/common-browser/blob/main/cairn/items/266d12d4-7099-406d-9c75-4e60a0fd8151-load-common-toml-at-launch-and-open-it-with.md) Load common.toml at launch and open it with ⌘, <sup>feature · p0 · config</sup>
 - [ ] [`2e08777c`](https://github.com/oddurs/common-browser/blob/main/cairn/items/2e08777c-7da0-4f69-9413-c68dec13af1e-find-in-page.md) Find in page <sup>feature · p1 · web</sup>
 - [ ] [`4cc437aa`](https://github.com/oddurs/common-browser/blob/main/cairn/items/4cc437aa-c4a6-463b-8620-1ca0a92411dc-javascript-dialogs-and-file-pickers.md) JavaScript dialogs and file pickers <sup>feature · p0 · web</sup>
+- [ ] [`5e5657e6`](https://github.com/oddurs/common-browser/blob/main/cairn/items/5e5657e6-273a-4ba3-94af-45ea0606b5dd-publish-the-app-to-github-releases-on-a-tag.md) Publish the app to GitHub Releases on a tag <sup>chore · p0 · release</sup>
 - [ ] [`63a3ee07`](https://github.com/oddurs/common-browser/blob/main/cairn/items/63a3ee07-4841-4948-b53a-516b5bcaaab0-full-size-window-native-full-screen-remembered-frame.md) Full-size window, native full screen, remembered frame <sup>feature · p1 · macos</sup>
 - [ ] [`7f4481e9`](https://github.com/oddurs/common-browser/blob/main/cairn/items/7f4481e9-3a6a-4a63-87e3-3b514f7c84cb-downloads.md) Downloads <sup>feature · p1 · web</sup>
 - [ ] [`a1afb662`](https://github.com/oddurs/common-browser/blob/main/cairn/items/a1afb662-be9a-407b-ac98-05957b2b4e8a-element-full-screen-for-video.md) Element full screen for video <sup>feature · p1 · web</sup>
